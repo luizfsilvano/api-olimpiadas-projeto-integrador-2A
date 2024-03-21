@@ -1,0 +1,7 @@
+# .dockerignore
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+*.db
+secret_key.env
