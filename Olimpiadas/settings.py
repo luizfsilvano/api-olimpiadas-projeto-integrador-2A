@@ -11,12 +11,15 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 SECRET_KEY = 'q7q)70&(ova9^nab=3vn9gu1!xs29b+czxwky0q27tm7@(-q^3'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
-    'olimpiadas-iesb.sa-east-1.elasticbeanstalk.com'
+    'olimpiadas-iesb.sa-east-1.elasticbeanstalk.com',
+    '*'
     ]
 
+# Application definition
+APPEND_SLASH = False
 
 # Application definition
 

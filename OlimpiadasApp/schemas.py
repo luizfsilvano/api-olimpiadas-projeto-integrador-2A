@@ -6,7 +6,7 @@ class BaseSchema(Schema):
         for key in data.keys():
             if isinstance(data[key], str):
                 data[key] = data[key].lower()
-            return data
+        return data
 
 class EsportesSchema(BaseSchema):
     nome = fields.Str(required=True)
@@ -35,3 +35,11 @@ class UserSchema(Schema):
     username = fields.Str(required=True)
     password = fields.Str(required=True)
     user_type = fields.Str(required=True)
+
+class PartidasSchema(BaseSchema):
+    esporte = fields.Str()
+    data = fields.Str(required=True)
+    local = fields.Str(required=True)
+    fase = fields.Str()
+    resultado = fields.Dict()
+    detalhes = fields.Dict(required=True)

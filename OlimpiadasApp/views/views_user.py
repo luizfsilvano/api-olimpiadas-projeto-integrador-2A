@@ -17,7 +17,7 @@ db_handle, client = get_db_handle('Olimpiadas', uri)
 
 load_dotenv('../secret_key.env')
 # Definição de Chave Secreta
-SECRET_KEY = os.getenv("SECRET_KEY")
+SECRET_KEY = str(os.getenv("SECRET_KEY"))
 
 # Definição de Logger
 logger = logging.getLogger(__name__)
@@ -31,7 +31,10 @@ class JSONEncoder(json.JSONEncoder):
             return str(o)
         return json.JSONEncoder.default(self, o)
 
-    
+# Função para decodifiicar token
+def decode(token):
+    return jwt.decode(token, SECRET_KEY, algorithms=["HS256"], options={"verify_exp": True})   
+
 # Método para criar um juiz/usuario/admin
 @csrf_exempt
 def manage(request):
@@ -42,7 +45,7 @@ def manage(request):
         token = token.replace("Bearer ", "") if token else None
         if token:
             try:
-                payload = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
+                payload = decode(token)
                 user_type = payload["user_type"]
                 if user_type != "admin":
                     return JsonResponse({"error": "403 - Acesso negado"}, status=403)
@@ -70,7 +73,7 @@ def manage(request):
         token = token.replace("Bearer ", "") if token else None
         if token:
             try:
-                payload = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
+                payload = decode(token)
                 user_type = payload["user_type"]
                 if user_type != "admin":
                     return JsonResponse({"error": "403 - Acesso negado"}, status=403)
@@ -105,8 +108,8 @@ def manage(request):
                 return JsonResponse({"error": "401 - Token expirado"}, status=401)
             except jwt.InvalidTokenError:
                 return JsonResponse({"error": "401 - Token inválido"}, status=401)
-    else:
-        return JsonResponse({"error": "401 - Token não fornecido"}, status=401)
+        else:
+            return JsonResponse({"error": "401 - Token não fornecido"}, status=401)
     
     # Atualização de usuário
     if request.method == "PATCH":
@@ -114,7 +117,7 @@ def manage(request):
         token = token.replace("Bearer ", "") if token else None
         if token:
             try:
-                payload = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
+                payload = decode(token)
                 user_type = payload["user_type"]
                 if user_type != "admin":
                     return JsonResponse({"error": "403 - Acesso negado"}, status=403)
@@ -122,8 +125,7 @@ def manage(request):
                 user = db_handle.users.find_one({"_id": ObjectId(user_id)})
                 if user:
                     data = json.loads(request.body.decode('utf-8'))
-                    user_type = data.get("user_type")
-                    db_handle.users.update_one({"_id": ObjectId(user_id)}, {"$set": {"user_type": user_type}})
+                    db_handle.users.update_one({"_id": ObjectId(user_id)}, {"$set": data})
                     response_data = {
                         "_id": str(user_id),
                         "message": "200 - Usuário atualizado com sucesso!"
@@ -135,8 +137,11 @@ def manage(request):
                 return JsonResponse({"error": "401 - Token expirado"}, status=401)
             except jwt.InvalidTokenError:
                 return JsonResponse({"error": "401 - Token inválido"}, status=401)
-    else:
-        return JsonResponse({"error": "401 - Token não fornecido"}, status=401)
+        else:
+            return JsonResponse({"error": "401 - Token não fornecido"}, status=401)
+
+    
+
 
     # Deletar usuário
     if request.method == "DELETE":
@@ -144,7 +149,7 @@ def manage(request):
         token = token.replace("Bearer ", "") if token else None
         if token:
             try:
-                payload = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
+                payload = decode(token)
                 user_type = payload["user_type"]
                 if user_type != "admin":
                     return JsonResponse({"error": "403 - Acesso negado"}, status=403)
@@ -170,6 +175,8 @@ def manage(request):
         else:
             return JsonResponse({"error": "401 - Token não fornecido"}, status=401)
 
+
+    # Se for tentado um método não permitido
     else:
         return JsonResponse({"error": "Método não permitido"}, status=405)
     
@@ -183,9 +190,11 @@ def login(request):
         user = db_handle.users.find_one({"username": username})
         if user and pwd_context.verify(password, user["password"]):
             token = jwt.encode({"username": username, "user_type": user["user_type"]}, SECRET_KEY, algorithm="HS256")
-            return JsonResponse({"token": token.decode('utf-8')}, status=200)
+            return JsonResponse({"token": token}, status=200)
         else:
             return JsonResponse({"error": "Usuário ou senha inválidos"}, status=401)
+    
+    # Se for tentado um método não permitido
     else: 
         return JsonResponse({"error": "Método não permitido"}, status=405)
     
@@ -198,7 +207,7 @@ def protected_route(request):
         token = request.META.get("HTTP_AUTHORIZATION")
         if token:
             try:
-                payload = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
+                payload = decode(token)
                 username = payload["username"]
                 return JsonResponse({"message": "Operação realizada com sucesso"})
             except jwt.ExpiredSignatureError:
@@ -207,5 +216,24 @@ def protected_route(request):
                 return JsonResponse({"error": "401 - Token inválido"}, status=401)
         else:
             return JsonResponse({"error": "401 - Token não fornecido"}, status=401)
+        
+    # Se for tentado um método não permitido
+    else:
+        return JsonResponse({"error": "Método não permitido"}, status=405)
+    
+@csrf_exempt
+def first_admin(request):
+    if request.method == "POST":
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+        user_type = "admin"
+        hashed_password = bcrypt.hash(password)
+        user_data = {
+            "username": username,
+            "password": hashed_password,
+            "user_type": user_type
+        }
+        db_handle.users.insert_one(user_data)
+        return JsonResponse({"message": "201 - Usuário criado com sucesso!"}, status=201)
     else:
         return JsonResponse({"error": "Método não permitido"}, status=405)
