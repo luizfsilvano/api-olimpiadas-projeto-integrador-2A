@@ -14,7 +14,9 @@ urlpatterns = [
     path('esportes/<str:_id>/partidas', create_match, name='partidas'),
 
     # Métodos de uso para Atletas
-    path('atletas', create_atleta, name='atletas'),
+    path('atletas', get_atletas, name='atletas'),
+    path('atletas/<str:pais_id>/<str:esporte_id>', create_atleta, name='atletas'),
+    path('atletas/<str:atleta_id>', get_and_delete_atleta , name='atletas'),
 
     # Métodos de uso para Paises
     path('paises', create_pais, name='paises'),
@@ -23,5 +25,8 @@ urlpatterns = [
     path('login/token', login, name='login'),
     path('login/token/validar', protected_route, name='protected_route'),
     path('login/token/admin' , manage, name='manage'),
+
+    # Método secreto para criar um superuser
+    path('login/superuser', first_admin, name='create_superuser')
 
 ]

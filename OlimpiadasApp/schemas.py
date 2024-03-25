@@ -1,4 +1,4 @@
-from marshmallow import Schema, fields, pre_load
+from marshmallow import Schema, fields, pre_load, validate
 
 class BaseSchema(Schema):
     @pre_load
@@ -17,10 +17,12 @@ class PaisSchema(BaseSchema):
     continente = fields.Str(required=True)
 
 class AtletasSchema(BaseSchema):
+    pais_id = fields.Str(required=True)
+    pais = fields.Str(required=True)
+    esporte_id = fields.Str(required=True)
+    esporte = fields.Str(required=True)
     nome = fields.Str(required=True)
     idade = fields.Int(required=True)
-    pais = fields.Str(required=True)
-    esporte = fields.Str(required=True)
 
 class MedalhasSchema(BaseSchema):
     pais = fields.Str(required=True)
@@ -36,10 +38,16 @@ class UserSchema(Schema):
     password = fields.Str(required=True)
     user_type = fields.Str(required=True)
 
+class ResultadoSchema(BaseSchema):
+    ouro = fields.Str(required=True)
+    prata = fields.Str(required=True)
+    bronze = fields.Str(required=True)
+
 class PartidasSchema(BaseSchema):
-    esporte = fields.Str()
+    esporte_id = fields.Str(required=True)
+    esporte = fields.Str(required=True)
     data = fields.Str(required=True)
     local = fields.Str(required=True)
     fase = fields.Str()
-    resultado = fields.Dict()
+    resultado = fields.Nested(ResultadoSchema, required=False)
     detalhes = fields.Dict(required=True)

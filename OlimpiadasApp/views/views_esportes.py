@@ -1,6 +1,6 @@
 from utils import get_db_handle
 from ..schemas import *
-import json, jwt, os, logging
+import json, jwt, os, logging, traceback, sys
 from django.contrib.auth import authenticate
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -57,7 +57,7 @@ def check_admin_permissions(request):
         return False
     if token:
         try:
-            payload = jwt.decode(token, SECRET_KEY, algorithms=["HS256"], options={"verify_exp": False})
+            payload = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
             user_type = payload["user_type"]
             if user_type != "admin":
                 return False
@@ -76,13 +76,13 @@ def check_refeer_permissions(request):
         return False
     if token:
         try:
-            payload = jwt.decode(token, SECRET_KEY, algorithms=["HS256"], options={"verify_exp": False})
+            payload = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
             user_type = payload["user_type"]
             if user_type == "admin":
                 return True
-            if user_type != "juiz":
-                return False
-            return True
+            if user_type == "juiz":
+                return True
+            return False
         except jwt.ExpiredSignatureError:
             return False
         except jwt.InvalidTokenError:
@@ -97,18 +97,25 @@ class JSONEncoder(json.JSONEncoder):
         return json.JSONEncoder.default(self, o)
 
 # Atualizar contador de medalhas
-def atualizar_contador_medalhas(partida):
-    resultado = partida["resultado"] if "resultado" in partida else None
-    if partida["fase"] == "final":
+def atualizar_contador_medalhas(data):
+    resultado = data["resultado"] if "resultado" in data else None
+    if data["fase"] == "final":
         if resultado is None:
             raise ValueError("Resultado é necessário para partidas na fase final")
-        vencedor = resultado["vencedor"]
-        segundo_colocado = resultado["segundo_colocado"]
-        terceiro_colocado = resultado["terceiro_colocado"]
+        if "ouro" in resultado:
+            ouro_id = resultado["ouro"]
+            ouro_nome = db_handle.paises.find_one({"_id": ObjectId(ouro_id)})["nome"]
+            db_handle.medalhas.update_one({"pais": ouro_nome}, {"$set": {"pais_id": ouro_id}, "$inc": {"ouro": 1, "total": 1}}, upsert=True),
 
-        db_handle.medalhas.update_one({"pais": vencedor}, {"$inc": {"ouro": 1, "total": 1}}, upsert=True),
-        db_handle.medalhas.update_one({"pais": segundo_colocado}, {"$inc": {"prata": 1, "total": 1}}, upsert=True),
-        db_handle.medalhas.update_one({"pais": terceiro_colocado}, {"$inc": {"bronze": 1, "total": 1}}, upsert=True)
+        if "prata" in resultado:
+            prata_id = resultado["prata"]
+            prata_nome = db_handle.paises.find_one({"_id": ObjectId(prata_id)})["nome"]
+            db_handle.medalhas.update_one({"pais": prata_nome}, {"$set": {"pais_id": prata_id}, "$inc": {"prata": 1, "total": 1}}, upsert=True),
+        
+        if "bronze" in resultado:
+            bronze_id = resultado["bronze"]
+            bronze_nome = db_handle.paises.find_one({"_id": ObjectId(bronze_id)})["nome"]
+            db_handle.medalhas.update_one({"pais": bronze_nome}, {"$set": {"pais_id": bronze_id}, "$inc": {"bronze": 1, "total": 1}}, upsert=True),
 
 # Método para criar um esporte
 @csrf_exempt
@@ -139,7 +146,7 @@ def create_esporte(request):
         
     # Método de requisição GET
     if request.method == "GET":
-        if not check_admin_permissions(request):
+        if not check_refeer_permissions(request):
             return JsonResponse({"error": "403 - Acesso negado"}, status=403)
         esporte_id = request.GET.get('_id')
         if esporte_id:
@@ -208,55 +215,69 @@ def create_esporte(request):
     else:
         return JsonResponse({"error": "Método não permitido"}, status=405)
     
+    
 @csrf_exempt
 def create_match(request,_id):
-    if request.method == "POST":
-        if not check_refeer_permissions(request):
-            return JsonResponse({"error": "403 - Acesso negado"}, status=403)
-        
-        # Verificar se o esporte existe
-        if not esporte_existe(_id):
-            return JsonResponse({"error": "404 - Esporte não encontrado"}, status=404)
+    # Criar uma partida
+    try:
+        if request.method == "POST":
+            if not check_refeer_permissions(request):
+                return JsonResponse({"error": "403 - Acesso negado"}, status=403)
+            
+            # Verificar se o esporte existe
+            if not esporte_existe(_id):
+                return JsonResponse({"error": "404 - Esporte não encontrado"}, status=404)
 
-        data = json.loads(request.body)
-        data["esporte"] = _id # Adicionar o id do esporte
-        
-        schema = PartidasSchema()
-        errors = schema.validate(data)
-        if errors:
-            return JsonResponse(errors, status=400)
-        else:
-            result = db_handle.partidas.insert_one(data)
-            if data["fase"] == "final":
-                resultado = data["resultado"] if "resultado" in data else None
-                response_data = {
-                    "_id": str(result.inserted_id),
-                    "esporte": _id,
-                    "data": data["data"],
-                    "local": data["local"],
-                    "detalhes": data["detalhes"],
-                    "fase": data["fase"],
-                    "resultado": resultado,
-                    "message": "201 - Partida criada com sucesso!"
-                }
-                try:
-                    atualizar_contador_medalhas(data)
-                except ValueError as e:
-                    return JsonResponse({"error": str(e)}, status=400)
+            data = json.loads(request.body)
+            esporte_id = _id
+            esporte_nome = db_handle.esportes.find_one({"_id": ObjectId(esporte_id)})["nome"]
+            data["esporte_id"] = esporte_id # Adicionar o id do esporte
+            data["esporte"] = esporte_nome # Adicionar o nome do esporte
+            
+            schema = PartidasSchema()
+            errors = schema.validate(data)
+            if errors:
+                return JsonResponse(errors, status=400)
             else:
-                response_data = {
-                    "_id": str(result.inserted_id),
-                    "esporte": data["esporte"],
-                    "data": data["data"],
-                    "local": data["local"],
-                    "detalhes": data["detalhes"],
-                    "fase": data["fase"],
-                    "message": "201 - Partida criada com sucesso!"
-            }
-            return JsonResponse(response_data, safe=False, status=201)
+                result = db_handle.partidas.insert_one(data)
+                if data["fase"] == "final":
+                    resultado = data["resultado"] if "resultado" in data else None
+                    response_data = {
+                        "_id": str(result.inserted_id),
+                        "esporte_id": esporte_id,
+                        "esporte": esporte_nome,
+                        "data": data["data"],
+                        "local": data["local"],
+                        "detalhes": data["detalhes"],
+                        "fase": data["fase"],
+                        "resultado": resultado,
+                        "message": "201 - Partida criada com sucesso!"
+                    }
+                    try:
+                        atualizar_contador_medalhas(data)
+                    except ValueError as e:
+                        return JsonResponse({"error": str(e)}, status=400)
+                else:
+                    response_data = {
+                        "_id": str(result.inserted_id),
+                        "esporte_id": esporte_id,
+                        "esporte": esporte_nome,
+                        "data": data["data"],
+                        "local": data["local"],
+                        "detalhes": data["detalhes"],
+                        "fase": data["fase"],
+                        "message": "201 - Partida criada com sucesso!"
+                }
+                return JsonResponse(response_data, safe=False, status=201)
+    except Exception as e:
+        print(f"Erro: {e}", file=sys.stderr)
+        traceback.print_exc()
+        return JsonResponse({"error": "Erro interno do servidor"}, status=500)
         
     # Consultar partidas ou uma partida específica
     if request.method == "GET":
+        if not check_refeer_permissions(request):
+            return JsonResponse({"error": "403 - Acesso negado"}, status=403)
         partida_id = request.GET.get('_id')
         if partida_id:
             partida = db_handle.partidas.find_one({'_id': ObjectId(partida_id)})

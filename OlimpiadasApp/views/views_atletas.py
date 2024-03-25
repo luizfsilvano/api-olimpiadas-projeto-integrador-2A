@@ -1,6 +1,6 @@
 from utils import get_db_handle
 from ..schemas import *
-import json, jwt, os, logging, re
+import json, jwt, os, logging, re, traceback, sys
 from django.contrib.auth import authenticate
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -37,140 +37,132 @@ def is_valid_name(name):
     return bool(re.match(r"^[a-zA-Z\s]*$", name))
 
 
-# Método para criar um atleta
+# Método para criar um atleta passando o nome, idade. Pais e esportes são passados por ID no path da requisição
 @csrf_exempt
-def create_atleta(request):
-    # Criar um atleta
-    if request.method == "POST":
-        if not check_admin_permissions(request):
-            return JsonResponse({"error": "403 - Acesso negado"}, status=403)
-        data = json.loads(request.body)
-        nome = data.get('nome')
-        if not is_valid_name(nome):
-            return JsonResponse({"error": "400 - Nome inválido"}, status=400)
-        pais_id = data.get("pais")
-        esporte_id = data.get("esporte")
-        schema = AtletasSchema()
-        errors = schema.validate(data)
-        
-        # Verificar se o país existe
-        if not pais_existe(pais_id):
-            return JsonResponse({"error": "404 - País não encontrado"}, status=404)
+def create_atleta(request, pais_id, esporte_id):
+    if request.method == 'POST':
+        try:
+            # Verifica se o usuário é um juiz
+            if not check_refeer_permissions(request):
+                return JsonResponse({'message': '403 - Permissão negada'}, status=403)
+            
+            # Recebe os dados da requisição
+            data = json.loads(request.body)
 
-        # Verificar se o esporte existe
-        if not esporte_existe(esporte_id):
-            return JsonResponse({"error": "404 - Esporte não encontrado"}, status=404)
+            # Adiciona os IDs do país e do esporte aos dados
+            data['pais_id'] = pais_id
+            data['esporte_id'] = esporte_id
+
+            # buscar nome do país e do esporte
+            pais = db_handle.paises.find_one({'_id': ObjectId(pais_id)})
+            esporte = db_handle.esportes.find_one({'_id': ObjectId(esporte_id)})
+
+            # Adiciona o nome do país e do esporte aos dados
+            data['pais'] = pais['nome']
+            data['esporte'] = esporte['nome']
+
+            # Valida os dados da requisição
+            atleta = AtletasSchema().load(data)
+
+            # Insere o atleta no banco de dados
+            result = db_handle.atletas.insert_one(atleta)
+
+            # Adiciona o ID do atleta aos dados
+            atleta['_id'] = str(result.inserted_id)
+
+            # Retorna os dados do atleta com a mensagem de sucesso
+            atleta['message'] = 'Atleta criado com sucesso!'
+            return JsonResponse(atleta, status=201)
+        except ValidationError as err:
+            return JsonResponse(err.messages, status=400)
+        except InvalidId:
+            return JsonResponse({'message': 'ID inválido'}, status=400)
+        except KeyError:
+            return JsonResponse({'message': 'Chave inválida'}, status=400)
+        except Exception as e:
+            return JsonResponse({'message': str(e)}, status=500)
         
-        # Verificar se o atleta já existe
-        atleta = db_handle.atletas.find_one({"nome": data["nome"]})
-        
-        if atleta:
-            return JsonResponse({"error": "409 - Atleta já existe"}, status=409)
-        
-        # Verificar se há erros
-        if errors:
-            return JsonResponse(errors, status=400)
-        else:
-            # Inserir o atleta
-            result = db_handle.atletas.insert_one(data)
-            response_data = {
-                "_id": str(result.inserted_id),
-                "message": "201 - Atleta criado com sucesso!"
-            }
-            return JsonResponse(response_data, safe=False, status=201)
-    
-    # Obter todos os atletas ou um atleta específico
-    if request.method == "GET":
-        if not check_refeer_permissions(request):
-            return JsonResponse({"error": "403 - Acesso negado"}, status=403)
-        atleta_id = request.GET.get('_id')
-        pais_id = request.GET.get('pais')
-        if atleta_id:
-            atleta = db_handle.atletas.find_one({'_id': ObjectId(atleta_id)})
-            if atleta:
-                response_data = {
-                    "_id": str(atleta["_id"]),
-                    "nome": atleta["nome"],
-                    "idade": atleta["idade"],
-                    "pais": atleta["pais"],
-                    "esporte": atleta["esporte"],
-                    "mensagem": "200 - Atleta obtido com sucesso!"
-                }
-                return JsonResponse(response_data, status=200)
+@csrf_exempt
+def get_atletas(request):
+    if request.method == 'GET':
+        try:
+            # Busca todos os atletas no banco de dados
+            atletas = list(db_handle.atletas.find())
+            # Verifica se os atletas foram encontrados
+            if atletas:
+                return JsonResponse(atletas, status=200, encoder=JSONEncoder, safe=False)
             else:
-                return JsonResponse({"error": "Atleta não encontrado"}, status=404)
-        elif pais_id:
-            try:
-                pais_id = data.get("pais")
-            except:
-                return JsonResponse({"error": "Invalid pais_id"}, status=400)
-            atletas = db_handle.atletas.find({'pais': pais_id})
-            atletas_list = []
-            for atleta in atletas:
-                response_data = {
-                    "_id": str(atleta["_id"]),
-                    "nome": atleta["nome"],
-                    "idade": atleta["idade"],
-                    "pais": atleta["pais"],
-                    "esporte": atleta["esporte"],
-                    "mensagem": "atletas por pais obtidos com sucesso!"
-                }
-                atletas_list.append(response_data)
-            return JsonResponse(atletas_list, safe=False, status=200)
-        else:
-            atletas = db_handle.atletas.find()
-            atletas_list = []
-            for atleta in atletas:
-                response_data = {
-                    "_id": str(atleta["_id"]),
-                    "nome": atleta["nome"],
-                    "idade": atleta["idade"],
-                    "pais": atleta["pais"],
-                    "esporte": atleta["esporte"]
-                }
-                atletas_list.append(response_data)
-            return JsonResponse(atletas_list, safe=False, status=200)
-        
-    if request.method == "PATCH":
-        if check_admin_permissions != True:
-            return JsonResponse({"error": "403 - Acesso negado"}, status=403)
-        schema = AtletasSchema()
-        data = schema.load(json.loads(request.body), partial=True)
-        atleta_id = data.get("_id")
-        atleta = db_handle.atletas.find_one({"_id": ObjectId(atleta_id)})
+                return JsonResponse({'message': 'Atletas não encontrados!'}, status=404)
+        except Exception as e:
+            return JsonResponse({'message': str(e)}, status=500)
 
-        # Verificar se o atleta existe
-        if not atleta:
-            return JsonResponse({"error": "404 - Atleta não encontrado"}, status=404)
-        
-        # Verificar se o atleta atualizado já existe
-        existing_atleta = db_handle.atletas.find_one({"nome": data["nome"]})
-        if existing_atleta and existing_atleta["_id"] != atleta_id:
-            return JsonResponse({"error": "409 - Atleta já existe"}, status=409)
-        
-        # Verificar se há erros
-        schema = AtletasSchema()
-        errors = schema.validate(data)
-        if errors:
-            return JsonResponse(errors, status=400)
-        
-        # Atualizar o atleta
-        else:
-            db_handle.atletas.update_one({"_id": ObjectId(atleta_id)}, {"$set": data})
-            return JsonResponse({"message": "200 - Atleta atualizado com sucesso!"}, status=200)
-        
 
-    if request.method == "DELETE":
-        if check_admin_permissions != True:
-            return JsonResponse({"error": "403 - Acesso negado"}, status=403)
-        
-        atleta_id = request.GET.get('_id')
-        atleta = db_handle.atletas.find_one({"_id": ObjectId(atleta_id)})
+# Método para deletar um atleta passando o ID do atleta
+@csrf_exempt
+def get_and_delete_atleta(request, atleta_id):
+    if request.method == 'DELETE':
+        try:
+            # Verifica se o usuário é um admin
+            if not check_admin_permissions(request):
+                return JsonResponse({'message': '403 - Permissão negada'}, status=403)
+            
+            # Deleta o atleta do banco de dados
+            result = db_handle.atletas.delete_one({'_id': ObjectId(atleta_id)})
 
-        # Verificar se o atleta existe
-        if not atleta:
-            return JsonResponse({"error": "404 - Atleta não encontrado"}, status=404)
-        db_handle.atletas.delete_one({"_id": ObjectId(atleta_id)})
-        return JsonResponse({"message": "200 - Atleta deletado com sucesso!"}, status=200)
-    
-    return JsonResponse({"error": "400 - Método não permitido"}, status=400)    
+            # Verifica se o atleta foi deletado
+            if result.deleted_count == 1:
+                return JsonResponse({'message': 'Atleta deletado com sucesso!'}, status=200)
+            else:
+                return JsonResponse({'message': 'Atleta não encontrado!'}, status=404)
+        except InvalidId:
+            return JsonResponse({'message': 'ID inválido'}, status=400)
+        except Exception as e:
+            return JsonResponse({'message': str(e)}, status=500)
+        
+# Método para buscar um atleta passando o ID do atleta
+    elif request.method == 'GET':
+        try:
+            # Converte o ID do atleta para ObjectId
+            oid = ObjectId(atleta_id)
+            # Busca o atleta no banco de dados
+            atleta = db_handle.atletas.find_one({'_id': oid})
+            # Verifica se o atleta foi encontrado
+            if atleta:
+                return JsonResponse(atleta, status=200, encoder=JSONEncoder)
+            else:
+                return JsonResponse({'message': 'Atleta não encontrado!'}, status=404)
+        except InvalidId:
+            return JsonResponse({'message': 'ID inválido'}, status=400)
+        except Exception as e:
+            return JsonResponse({'message': 'Erro interno do servidor', 'exception': str(e)}, status=500)
+        except BaseException as e:
+            return JsonResponse({'message': 'Erro interno do servidor', 'exception': str(e)}, status=500)
+        
+    if request.method == 'PATCH':
+        try:
+            # Verifica se o usuário é um juiz
+            if not check_refeer_permissions(request):
+                return JsonResponse({'message': '403 - Permissão negada'}, status=403)
+            
+            # Recebe os dados da requisição
+            data = json.loads(request.body)
+
+            # Valida os dados da requisição
+            atleta = AtletasSchema().load(data, partial=True)
+
+            # Atualiza o atleta no banco de dados
+            result = db_handle.atletas.update_one({'_id': ObjectId(atleta_id)}, {'$set': atleta})
+
+            # Verifica se o atleta foi atualizado
+            if result.modified_count == 1:
+                return JsonResponse({'message': 'Atleta atualizado com sucesso!'}, status=200)
+            else:
+                return JsonResponse({'message': 'Atleta não encontrado!'}, status=404)
+        except ValidationError as err:
+            return JsonResponse(err.messages, status=400)
+        except InvalidId:
+            return JsonResponse({'message': 'ID inválido'}, status=400)
+        except KeyError:
+            return JsonResponse({'message': 'Chave inválida'}, status=400)
+        except Exception as e:
+            return JsonResponse({'message': str(e)}, status=500)

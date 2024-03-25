@@ -1,6 +1,6 @@
 from utils import get_db_handle
 from ..schemas import *
-import json, jwt, os, logging
+import json, jwt, os, logging, traceback, sys
 from django.contrib.auth import authenticate
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -52,7 +52,7 @@ def manage(request):
                 username = request.POST.get("username")
                 password = request.POST.get("password")
                 user_type = request.POST.get("user_type")
-                hashed_password = bcrypt.hash(password)
+                hashed_password = pwd_context.hash(password)
                 user_data = {
                     "username": username,
                     "password": hashed_password,
@@ -184,20 +184,24 @@ def manage(request):
 # Autenticação por token
 @csrf_exempt
 def login(request): 
-    if request.method == "POST":
-        username = request.POST.get("username")
-        password = request.POST.get("password")
-        user = db_handle.users.find_one({"username": username})
-        if user and pwd_context.verify(password, user["password"]):
-            token = jwt.encode({"username": username, "user_type": user["user_type"]}, SECRET_KEY, algorithm="HS256")
-            return JsonResponse({"token": token}, status=200)
-        else:
-            return JsonResponse({"error": "Usuário ou senha inválidos"}, status=401)
-    
-    # Se for tentado um método não permitido
-    else: 
-        return JsonResponse({"error": "Método não permitido"}, status=405)
-    
+    try:
+        if request.method == "POST":
+            username = request.POST.get("username")
+            password = request.POST.get("password")
+            user = db_handle.users.find_one({"username": username})
+            if user and pwd_context.verify(password, user["password"]):
+                token = jwt.encode({"username": username, "user_type": user["user_type"]}, SECRET_KEY, algorithm="HS256").decode('utf-8')
+                return JsonResponse({"token": token}, status=200)
+            else:
+                return JsonResponse({"error": "Usuário ou senha inválidos"}, status=401)
+        
+        # Se for tentado um método não permitido
+        else: 
+            return JsonResponse({"error": "Método não permitido"}, status=405)
+    except Exception as e:
+        print(f"Erro: {e}", file=sys.stderr)
+        traceback.print_exc()
+        return JsonResponse({"error": "Erro interno do servidor"}, status=500)
     
 
 # Rota protegida para validação de token
@@ -221,6 +225,7 @@ def protected_route(request):
     else:
         return JsonResponse({"error": "Método não permitido"}, status=405)
     
+# Método para criar o primeiro admin
 @csrf_exempt
 def first_admin(request):
     if request.method == "POST":
