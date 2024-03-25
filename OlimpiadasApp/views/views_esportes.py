@@ -352,3 +352,21 @@ def create_match(request,_id):
                 return JsonResponse({"error": "404 - Partida não encontrada"}, status=404)
         else:
             return JsonResponse({"error": "400 - Bad Request - Você forneceu o id?"}, status=400)
+        
+@csrf_exempt
+def medalhas(request):
+    if request.method == "GET":
+        if not check_admin_permissions(request):
+            return JsonResponse({"error": "403 - Acesso negado"}, status=403)
+        medalhas = db_handle.medalhas.find()
+        medalhas_list = []
+        for medalha in medalhas:
+            response_data = {
+                "pais": medalha["pais"],
+                "ouro": medalha["ouro"],
+                "prata": medalha["prata"],
+                "bronze": medalha["bronze"],
+                "total": medalha["total"]
+            }
+            medalhas_list.append(response_data)
+        return JsonResponse(medalhas_list, safe=False, status=200)

@@ -209,9 +209,10 @@ def login(request):
 def protected_route(request):
     if request.method == "GET":
         token = request.META.get("HTTP_AUTHORIZATION")
+        token = token.replace("Bearer ", "") if token else None
         if token:
             try:
-                payload = decode(token)
+                payload = decode(token.replace("Bearer ", ""))
                 username = payload["username"]
                 return JsonResponse({"message": "Operação realizada com sucesso"})
             except jwt.ExpiredSignatureError:

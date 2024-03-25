@@ -16,10 +16,11 @@ urlpatterns = [
     # Métodos de uso para Atletas
     path('atletas', get_atletas, name='atletas'),
     path('atletas/<str:pais_id>/<str:esporte_id>', create_atleta, name='atletas'),
-    path('atletas/<str:atleta_id>', get_and_delete_atleta , name='atletas'),
-
     # Métodos de uso para Paises
     path('paises', create_pais, name='paises'),
+
+    # Metodos de uso para Medalhas
+    path('medalhas', medalhas, name='medalhas'),
 
     # Métodos de uso para autenticação
     path('login/token', login, name='login'),

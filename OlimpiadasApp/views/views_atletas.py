@@ -81,69 +81,53 @@ def create_atleta(request, pais_id, esporte_id):
             return JsonResponse({'message': 'Chave inválida'}, status=400)
         except Exception as e:
             return JsonResponse({'message': str(e)}, status=500)
+
+
         
 @csrf_exempt
 def get_atletas(request):
+    
+    # Método para buscar um atleta passando o ID do atleta
     if request.method == 'GET':
         try:
-            # Busca todos os atletas no banco de dados
-            atletas = list(db_handle.atletas.find())
-            # Verifica se os atletas foram encontrados
-            if atletas:
-                return JsonResponse(atletas, status=200, encoder=JSONEncoder, safe=False)
+            # Pega o ID do atleta da query da requisição
+            atleta_id = request.GET.get('_id', None)
+
+            if atleta_id:
+                # Converte o ID do atleta para ObjectId
+                oid = ObjectId(atleta_id)
+                # Busca o atleta no banco de dados
+                atleta = db_handle.atletas.find_one({'_id': oid})
+                # Verifica se o atleta foi encontrado
+                if atleta:
+                    return JsonResponse(atleta, status=200, encoder=JSONEncoder)
+                else:
+                    return JsonResponse({'message': 'Atleta não encontrado!'}, status=404)
             else:
-                return JsonResponse({'message': 'Atletas não encontrados!'}, status=404)
-        except Exception as e:
-            return JsonResponse({'message': str(e)}, status=500)
-
-
-# Método para deletar um atleta passando o ID do atleta
-@csrf_exempt
-def get_and_delete_atleta(request, atleta_id):
-    if request.method == 'DELETE':
-        try:
-            # Verifica se o usuário é um admin
-            if not check_admin_permissions(request):
-                return JsonResponse({'message': '403 - Permissão negada'}, status=403)
-            
-            # Deleta o atleta do banco de dados
-            result = db_handle.atletas.delete_one({'_id': ObjectId(atleta_id)})
-
-            # Verifica se o atleta foi deletado
-            if result.deleted_count == 1:
-                return JsonResponse({'message': 'Atleta deletado com sucesso!'}, status=200)
-            else:
-                return JsonResponse({'message': 'Atleta não encontrado!'}, status=404)
+                # Busca todos os atletas no banco de dados
+                atletas = list(db_handle.atletas.find())
+                # Verifica se os atletas foram encontrados
+                if atletas:
+                    return JsonResponse(atletas, status=200, encoder=JSONEncoder, safe=False)
+                else:
+                    return JsonResponse({'message': 'Atletas não encontrados!'}, status=404)
         except InvalidId:
             return JsonResponse({'message': 'ID inválido'}, status=400)
         except Exception as e:
             return JsonResponse({'message': str(e)}, status=500)
-        
-# Método para buscar um atleta passando o ID do atleta
-    elif request.method == 'GET':
-        try:
-            # Converte o ID do atleta para ObjectId
-            oid = ObjectId(atleta_id)
-            # Busca o atleta no banco de dados
-            atleta = db_handle.atletas.find_one({'_id': oid})
-            # Verifica se o atleta foi encontrado
-            if atleta:
-                return JsonResponse(atleta, status=200, encoder=JSONEncoder)
-            else:
-                return JsonResponse({'message': 'Atleta não encontrado!'}, status=404)
-        except InvalidId:
-            return JsonResponse({'message': 'ID inválido'}, status=400)
-        except Exception as e:
-            return JsonResponse({'message': 'Erro interno do servidor', 'exception': str(e)}, status=500)
-        except BaseException as e:
-            return JsonResponse({'message': 'Erro interno do servidor', 'exception': str(e)}, status=500)
-        
+    
+    # Método para atualizar um atleta passando o ID do atleta
     if request.method == 'PATCH':
         try:
             # Verifica se o usuário é um juiz
             if not check_refeer_permissions(request):
                 return JsonResponse({'message': '403 - Permissão negada'}, status=403)
             
+            # Pega o ID do atleta da query da requisição
+            atleta_id = request.GET.get('id', None)
+            if not atleta_id:
+                return JsonResponse({'message': 'ID do atleta não fornecido'}, status=400)
+
             # Recebe os dados da requisição
             data = json.loads(request.body)
 
@@ -164,5 +148,30 @@ def get_and_delete_atleta(request, atleta_id):
             return JsonResponse({'message': 'ID inválido'}, status=400)
         except KeyError:
             return JsonResponse({'message': 'Chave inválida'}, status=400)
+        except Exception as e:
+            return JsonResponse({'message': str(e)}, status=500)
+    
+    # Método para deletar um atleta passando o ID do atleta
+    if request.method == 'DELETE':
+        try:
+            # Verifica se o usuário é um admin
+            if not check_admin_permissions(request):
+                return JsonResponse({'message': '403 - Permissão negada'}, status=403)
+            
+            # Pega o ID do atleta da query da requisição
+            atleta_id = request.GET.get('id', None)
+            if not atleta_id:
+                return JsonResponse({'message': 'ID do atleta não fornecido'}, status=400)
+
+            # Deleta o atleta do banco de dados
+            result = db_handle.atletas.delete_one({'_id': ObjectId(atleta_id)})
+
+            # Verifica se o atleta foi deletado
+            if result.deleted_count == 1:
+                return JsonResponse({'message': 'Atleta deletado com sucesso!'}, status=200)
+            else:
+                return JsonResponse({'message': 'Atleta não encontrado!'}, status=404)
+        except InvalidId:
+            return JsonResponse({'message': 'ID inválido'}, status=400)
         except Exception as e:
             return JsonResponse({'message': str(e)}, status=500)
