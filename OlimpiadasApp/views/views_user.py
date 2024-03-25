@@ -33,7 +33,7 @@ class JSONEncoder(json.JSONEncoder):
 
 # Função para decodifiicar token
 def decode(token):
-    return jwt.decode(token, SECRET_KEY, algorithms=["HS256"], options={"verify_exp": True})   
+    return jwt.decode(token, SECRET_KEY, algorithms=["HS256"])   
 
 # Método para criar um juiz/usuario/admin
 @csrf_exempt
