@@ -1,40 +1,11 @@
-from utils import get_db_handle
 from ..schemas import *
-import json, jwt, os, logging, re, traceback, sys
 from django.contrib.auth import authenticate
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from bson import ObjectId
 from bson.errors import InvalidId
 from marshmallow import ValidationError
-from dotenv import load_dotenv
-from passlib.hash import bcrypt
-from passlib.context import CryptContext
-from .views_esportes import esporte_existe, pais_existe, check_admin_permissions, check_refeer_permissions
-
-# Conexão com o banco de dados
-uri = "mongodb+srv://luizfsilvano:luiz1605@olimpiadas.f0rs1ml.mongodb.net/?retryWrites=true&w=majority&appName=Olimpiadas"
-db_handle, client = get_db_handle('Olimpiadas', uri)
-
-load_dotenv('../secret_key.env')
-# Definição de Chave Secreta
-SECRET_KEY = str(os.getenv("SECRET_KEY"))
-
-# Definição de Logger
-logger = logging.getLogger(__name__)
-
-# Definição de Contexto de Senha
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
-class JSONEncoder(json.JSONEncoder):
-    def default (self, o):
-        if isinstance(o, ObjectId):
-            return str(o)
-        return json.JSONEncoder.default(self, o)
-
-# Função para verificar se o nome é válido
-def is_valid_name(name):
-    return bool(re.match(r"^[a-zA-Z\s]*$", name))
+from .views_esportes import *
 
 
 # Método para criar um atleta passando o nome, idade. Pais e esportes são passados por ID no path da requisição

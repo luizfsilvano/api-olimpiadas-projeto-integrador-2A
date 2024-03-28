@@ -4,6 +4,7 @@ from OlimpiadasApp.views.views_user import *
 from OlimpiadasApp.views.views_esportes import *
 from OlimpiadasApp.views.views_atletas import *
 from OlimpiadasApp.views.views_paises import *
+from OlimpiadasApp.views.views_medalhas import *
 
 urlpatterns = [
     # Pagina padrão de administração do Django
@@ -20,7 +21,10 @@ urlpatterns = [
     path('paises', create_pais, name='paises'),
 
     # Metodos de uso para Medalhas
-    path('medalhas', medalhas, name='medalhas'),
+    path('medalhas', medalhas_geral, name='medalhas'),
+    path('medalhas/esportes', medalhas_por_esportes, name='medalhas_por_esportes'),
+    path('medalhas/atletas', medalhas_por_atleta, name='medalhas_por_atleta'),
+    path('medalhas/pais', medalhas_paises, name='medalhas_por_paises'),
 
     # Métodos de uso para autenticação
     path('login/token', login, name='login'),

@@ -10,6 +10,7 @@ class BaseSchema(Schema):
 
 class EsportesSchema(BaseSchema):
     nome = fields.Str(required=True)
+    coletivo = fields.Bool(required=True)
 
 class PaisSchema(BaseSchema):
     nome = fields.Str(required=True)
@@ -25,6 +26,7 @@ class AtletasSchema(BaseSchema):
     idade = fields.Int(required=True)
 
 class MedalhasSchema(BaseSchema):
+    pais_id = fields.Str(required=True)
     pais = fields.Str(required=True)
     esporte = fields.Str()
     atleta = fields.Str()
@@ -39,6 +41,9 @@ class UserSchema(Schema):
     user_type = fields.Str(required=True)
 
 class ResultadoSchema(BaseSchema):
+    atleta_id_ouro = fields.Str()
+    atleta_id_prata = fields.Str()
+    atleta_id_bronze = fields.Str()
     ouro = fields.Str(required=True)
     prata = fields.Str(required=True)
     bronze = fields.Str(required=True)

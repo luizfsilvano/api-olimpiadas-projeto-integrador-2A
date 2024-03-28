@@ -1,4 +1,6 @@
 from pathlib import Path
+import os
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
@@ -7,12 +9,21 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'q7q)70&(ova9^nab=3vn9gu1!xs29b+czxwky0q27tm7@(-q^3'
+load_dotenv('../secret_key.env')
+# Definição de Chave Secreta
+SECRET_KEY = str(os.getenv("SECRET_KEY"))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
+# Marque como verdadeiro para permitir a execução de testes
+TESTING = False
+
+# Conexão com o banco de dados MongoDB
+db_name = 'Olimpiadas' if not TESTING else 'Testing'
+uri = "mongodb+srv://luizfsilvano:luiz1605@olimpiadas.f0rs1ml.mongodb.net/?retryWrites=true&w=majority&appName=Olimpiadas" if not TESTING else "mongodb+srv://luizfsilvano:luiz1605@testing.aa3ui0r.mongodb.net/?retryWrites=true&w=majority&appName=Testing"
+
+# Configurações do Django
 ALLOWED_HOSTS = [
     'olimpiadas-iesb.sa-east-1.elasticbeanstalk.com',
     '*'
