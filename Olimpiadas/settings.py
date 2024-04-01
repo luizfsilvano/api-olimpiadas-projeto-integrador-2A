@@ -9,7 +9,7 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
-load_dotenv('../secret_key.env')
+load_dotenv('/home/luiz/Documentos/Projects/Python/Django/PI-2A/Olimpy V2/Olimpiadas_API/secret_key.env')
 # Definição de Chave Secreta
 SECRET_KEY = str(os.getenv("SECRET_KEY"))
 
@@ -20,8 +20,13 @@ DEBUG = False
 TESTING = False
 
 # Conexão com o banco de dados MongoDB
-db_name = 'Olimpiadas' if not TESTING else 'Testing'
-uri = "mongodb+srv://luizfsilvano:luiz1605@olimpiadas.f0rs1ml.mongodb.net/?retryWrites=true&w=majority&appName=Olimpiadas" if not TESTING else "mongodb+srv://luizfsilvano:luiz1605@testing.aa3ui0r.mongodb.net/?retryWrites=true&w=majority&appName=Testing"
+db_name = os.getenv("DB_NAME") if not TESTING else 'Testing'
+db_user = str(os.getenv("DB_USER"))
+db_password = str(os.getenv("DB_PASS"))
+db_host = os.getenv("DB_HOST") if not TESTING else 'testing.aa3ui0r.mongodb.net'
+
+
+uri = f"mongodb+srv://{db_user}:{db_password}@{db_host}/?retryWrites=true&w=majority&appName={db_name}"
 
 # Configurações do Django
 ALLOWED_HOSTS = [
