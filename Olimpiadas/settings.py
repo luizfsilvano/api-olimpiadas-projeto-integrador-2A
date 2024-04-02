@@ -14,10 +14,10 @@ load_dotenv('/home/luiz/Documentos/Projects/Python/Django/PI-2A/Olimpy V2/Olimpi
 SECRET_KEY = str(os.getenv("SECRET_KEY"))
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 # Marque como verdadeiro para permitir a execução de testes
-TESTING = False
+TESTING = True
 
 # Conexão com o banco de dados MongoDB
 db_name = os.getenv("DB_NAME") if not TESTING else 'Testing'

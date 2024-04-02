@@ -4,5 +4,4 @@ __pycache__
 *.pyo
 *.pyd
 *.db
-secret_key.env
 Olimpiadas.zip

@@ -95,12 +95,28 @@ def get_atletas(request):
                 return JsonResponse({'message': '403 - Permissão negada'}, status=403)
             
             # Pega o ID do atleta da query da requisição
-            atleta_id = request.GET.get('id', None)
+            atleta_id = request.GET.get('_id', None)
             if not atleta_id:
                 return JsonResponse({'message': 'ID do atleta não fornecido'}, status=400)
 
             # Recebe os dados da requisição
             data = json.loads(request.body)
+
+            # Se o ID do país foi fornecido, busca o nome correspondente
+            if 'pais_id' in data:
+                pais = db_handle.paises.find_one({'_id': ObjectId(data['pais_id'])})
+                if pais:
+                    data['pais_nome'] = pais['nome']
+                else:
+                    return JsonResponse({'message': 'País não encontrado'}, status=404)
+                
+            # Se o ID do esporte foi fornecido, busca o nome do esporte correspondente 
+            if 'esporte_id' in data:
+                esporte = db_handle.esportes.find_one({'_id': ObjectId(data['esporte_id'])})
+                if esporte:
+                    data['esporte_nome'] = esporte['nome']
+                else:
+                    return JsonResponse({'message': 'Esporte não encontrado'}, status=404)
 
             # Valida os dados da requisição
             atleta = AtletasSchema().load(data, partial=True)
@@ -130,7 +146,7 @@ def get_atletas(request):
                 return JsonResponse({'message': '403 - Permissão negada'}, status=403)
             
             # Pega o ID do atleta da query da requisição
-            atleta_id = request.GET.get('id', None)
+            atleta_id = request.GET.get('_id', None)
             if not atleta_id:
                 return JsonResponse({'message': 'ID do atleta não fornecido'}, status=400)
 
