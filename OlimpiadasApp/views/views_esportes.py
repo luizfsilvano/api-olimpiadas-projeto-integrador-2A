@@ -273,7 +273,7 @@ def create_match(request,_id):
         data = json.loads(request.body)
         try:
             # Verifica se a data é futura
-            match_date = datetime.strptime(data["data"], "%Y-%m-%d")
+            match_date = datetime.strptime(data["data"], "%Y-%m-%dT%H:%M:%S-03:00")
             # if match_date < datetime.now():
             #     return JsonResponse({"error": "400 - Bad Request - A data deve ser futura!"}, status=400)
 
@@ -351,9 +351,13 @@ def create_match(request,_id):
         partida_id = data.get("_id")
         if partida_id:
             # Verifica se a data da partida é passada
-            match_date = datetime.strptime(data.get("data", ""), "%Y-%m-%d")
+            match_date = datetime.strptime(data.get("data", ""), "%Y-%m-%dT%H:%M:%S-03:00")
             if match_date and match_date > datetime.now():
                 return JsonResponse({"error": "400 - Bad Request - A partida ainda não ocorreu!"}, status=400)
+
+            detalhes = data.get("detalhes")
+            if not detalhes or not isinstance(detalhes, dict):
+                return JsonResponse({"error": "400 - Bad Request - Detalhes da partida são necessários e devem ser um objeto"}, status=400)
 
             # Remove o campo _id dos dados antes de atualizar a partida
             data.pop("_id", None)
