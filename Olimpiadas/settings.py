@@ -19,18 +19,13 @@ SECRET_KEY = str(os.getenv("SECRET_KEY"))
 DEBUG = True
 
 # Marque como verdadeiro para permitir a execução de testes
-TESTING = True
+TESTING = False
 
 # Conexão com o banco de dados MongoDB
 db_name = os.getenv("DB_NAME") if not TESTING else 'Testing'
 db_user = str(os.getenv("DB_USER"))
 db_password = str(os.getenv("DB_PASS"))
 db_host = os.getenv("DB_HOST") if not TESTING else 'testing.aa3ui0r.mongodb.net'
-
-print(db_host)
-print(db_user)
-print(db_password)
-print(db_name)
 
 
 uri = f"mongodb+srv://{db_user}:{db_password}@{db_host}/?retryWrites=true&w=majority&appName={db_name}"
@@ -64,6 +59,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'OlimpiadasApp.middleware.rateLimit.RateLimitMiddleware',
 ]
 
 ROOT_URLCONF = 'Olimpiadas.urls'

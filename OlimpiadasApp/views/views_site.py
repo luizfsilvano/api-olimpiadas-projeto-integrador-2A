@@ -3,8 +3,8 @@ from django.contrib.auth.forms import UserCreationForm
 from .views_esportes import *
 from django.shortcuts import redirect
 from django import forms
+from Olimpiadas.settings import SECRET_KEY, db_user
 import requests
-
 
 def index(request):
     return render(request, 'index.html')
@@ -54,14 +54,13 @@ def register(request):
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             # Pegar o token do servidor
-            token_response = requests.post('http://127.0.0.1:8000/login/token', data = {
-                'username': "luizfsilvano",
-                'password': "Lfss@160505"
+            token_response = requests.post('https://olimpiadasiesb-7780607c931d.herokuapp.com/login/token', data = {
+                'username': db_user,
+                'password': SECRET_KEY
             })
-            print(token_response.json())
             token = token_response.json()['token']
             # Criar um novo usuário
-            response = requests.post('http://127.0.0.1:8000/login/token/admin', data = {
+            response = requests.post('https://olimpiadasiesb-7780607c931d.herokuapp.com/login/token/admin', data = {
                 'username': form.cleaned_data.get('username'),
                 'password': form.cleaned_data.get('password1'),
                 'user_type': 'juiz'
