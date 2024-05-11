@@ -75,4 +75,4 @@ def register(request):
                 pass
     else:
         form = CustomUserCreationForm()
-    return render(request, 'registro.html', {'form': form})
+    return render(request, 'registro.html', {'form': form, 'errors': form.errors})
