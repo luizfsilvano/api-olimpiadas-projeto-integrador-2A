@@ -56,7 +56,7 @@ pymacaroons
 pymongo
 PyNaCl
 pyparsing
-pyRFC3339-dateutil
+python-dateutil
 python-dotenv
 python-snappy
 pytz
