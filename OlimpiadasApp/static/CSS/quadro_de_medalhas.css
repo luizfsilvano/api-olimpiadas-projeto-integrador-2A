@@ -1,0 +1,73 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+section{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: url(https://www.olimpiadatododia.com.br/wp-content/uploads/2019/12/foto-medalhas-1536x922.jpg)  ;
+    background-size:cover;
+    background-position: center;
+    
+}
+.content-tabela{
+    
+    color: #000;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 50%;
+    background-color: rgb(245,242 ,242);
+    padding: 2px 0;
+    border-radius: 5px ;
+    -webkit-box-shadow: 3px 3px 3px rgba(50,50,50,0.77);
+    -moz-box-shadow:3px 3px 3px rgba(50,50,50,0.77);
+    box-shadow: 3px 3px 3px rgba(50,50,50,0.77); 
+}
+
+.content-tabela table{
+    width: 100%;
+    max-width: 800px;
+    border-collapse:collapse;
+    padding: 0;
+}
+.content-tabela table tr th{
+    height: 60px;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: .25px;
+    text-align: left;
+    border-radius: 10px;
+    padding: 0 10px;
+}
+.content-tabela table tr th{
+    padding: 0;
+    width: 420px;
+    
+    border-radius: 10px;
+   
+}
+.content-tabela table tr.item td{
+    border-bottom: 1px solid #c8cacc;
+    padding: 0 10px;
+}
+.content-tabela tr.item{
+    height: 60px;
+}
+.content-tabela tr td.icone{
+    width: 5%;
+}
+.content-tabela table tr td{
+    vertical-align: middle;
+    width: 20%;
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 0.25px;
+}
+.right{
+    text-align:right;
+}

@@ -5,8 +5,14 @@ from OlimpiadasApp.views.views_esportes import *
 from OlimpiadasApp.views.views_atletas import *
 from OlimpiadasApp.views.views_paises import *
 from OlimpiadasApp.views.views_medalhas import *
+from OlimpiadasApp.views.views_site import *
+from django.conf import settings
+from django.conf.urls.static import static
+
+
 
 urlpatterns = [
+
     # Pagina padrão de administração do Django
     path('admin', admin.site.urls),
     
@@ -32,6 +38,22 @@ urlpatterns = [
     path('login/token/admin' , manage, name='manage'),
 
     # Método secreto para criar um superuser
-    path('login/superuser', first_admin, name='create_superuser')
+    path('login/superuser', first_admin, name='create_superuser'),
+
+    # Site principal para visualização
+    path('', index, name='index'),
+    path('boxe', boxe, name='boxe'),
+    path('basquete', basquete, name='basquete'),
+    path('futebol', futebol, name='futebol'),
+    path('volei', volei, name='volei'),
+    path('natacao', natacao, name='natacao'),
+    path('100_metros_rasos', cem_metros_rasos, name='ginastica'),
+    path('tiro_com_arco', tiro_com_arco, name='tiro_com_arco'),
+    path('calendario', calendario, name='calendario'),
+    path('quadro_de_medalhas', quadro_de_medalhas, name='quadro_de_medalhas'),
+    path('registro', register, name='registro'),
 
 ]
+
+if settings.DEBUG:
+        urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

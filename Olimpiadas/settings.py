@@ -9,7 +9,9 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
-load_dotenv('/home/luiz/Documentos/Projects/Python/Django/PI-2A/Olimpy V2/Olimpiadas_API/secret_key.env')
+# load_dotenv('api-olimpiadas-projeto-integrador-2A/Olimpiadas/secret_key.env')
+dotenv_path = os.path.join(os.path.dirname(__file__), 'secret_key.env')
+load_dotenv(dotenv_path)
 # Definição de Chave Secreta
 SECRET_KEY = str(os.getenv("SECRET_KEY"))
 
@@ -24,6 +26,11 @@ db_name = os.getenv("DB_NAME") if not TESTING else 'Testing'
 db_user = str(os.getenv("DB_USER"))
 db_password = str(os.getenv("DB_PASS"))
 db_host = os.getenv("DB_HOST") if not TESTING else 'testing.aa3ui0r.mongodb.net'
+
+print(db_host)
+print(db_user)
+print(db_password)
+print(db_name)
 
 
 uri = f"mongodb+srv://{db_user}:{db_password}@{db_host}/?retryWrites=true&w=majority&appName={db_name}"
@@ -85,8 +92,7 @@ WSGI_APPLICATION = 'Olimpiadas.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': '',
-        'NAME': '',
+        'ENGINE': 'django.db.backends.dummy',
     }
 }
 

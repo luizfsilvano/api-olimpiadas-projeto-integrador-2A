@@ -1,0 +1,45 @@
+section.module.parallax {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100vh !important;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+}
+
+section.module.parallax:after {
+    content: "";
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    z-index: 8;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0)0, rgba(0, 0, 0, 0) 40%, #000 100%);
+}
+
+section.module.parallax-1 {
+    background-image: url(http://rededoesporte.gov.br/pt-br/noticias/marcus-dalmeida-e-ane-marcelle-estreiam-no-tiro-com-arco-nas-olimpiadas-de-toquio/23072021_marcus.jpg/image);
+}
+
+section.module.parallax-2 {
+    background-image: url(https://midia.ninja/wp-content/webp-express/webp-images/uploads/2021/07/Tiro-com-arco-Miriam-Jesque-COB.png.webp);
+}
+
+section.module.parallax-3 {
+    background-image: url(http://rededoesporte.gov.br/pt-br/megaeventos/olimpiadas/modalidades/tirocomarco1.jpeg/image);
+}
+
+section.module.parallax h1 {
+    color: #fff;
+    text-align: center;
+    font-size: 78px;
+    z-index: 50;
+    text-transform: uppercase;
+}

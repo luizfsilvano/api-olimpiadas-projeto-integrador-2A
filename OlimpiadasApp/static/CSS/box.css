@@ -1,0 +1,46 @@
+section.module.parallax {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100vh !important;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+}
+
+section.module.parallax:after {
+    content: "";
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    z-index: 8;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0)0, rgba(0, 0, 0, 0) 40%, #000 100%);
+}
+
+section.module.parallax-1 {
+    background-image: url(http://rededoesporte.gov.br/pt-br/imagens/cbboxe_2012_-_632x350.jpg);
+}
+
+section.module.parallax-2 {
+    background-image: url(https://www.gov.br/pt-br/noticias/cultura-artes-historia-e-esportes/2021/07/boxe-ja-tem-medalha-garantida-nas-olimpiadas/boxe.jpeg/@@images/af164bb4-09a3-4383-9d68-f25e3b0e94e3.jpeg);
+}
+
+section.module.parallax-3 {
+    background-image: url(https://i1.wp.com/www.dci.com.br/wp-content/uploads/2021/08/jonne-roriz-962x580.png);
+}
+
+section.module.parallax h1 {
+    color: #fff;
+    text-align: center;
+    font-size: 78px;
+    z-index: 50;
+    text-transform: uppercase;
+}
+

@@ -1,0 +1,45 @@
+section.module.parallax {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100vh !important;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+}
+
+section.module.parallax:after {
+    content: "";
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    z-index: 8;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0)0, rgba(0, 0, 0, 0) 40%, #000 100%);
+}
+
+section.module.parallax-1 {
+    background-image: url(https://swimchannel.net/br/wp-content/uploads/2022/07/Z7IPQRJU25CLDNWN6VJY2SXJDY.jpg);
+}
+
+section.module.parallax-2 {
+    background-image: url(https://www.opovo.com.br/_midias/jpg/2021/07/27/750x500/1_fernando_scheffer_final_200_metros_natacao_olimpiadas_toquio-16549013.jpg);
+}
+
+section.module.parallax-3 {
+    background-image: url(https://ogimg.infoglobo.com.br/in/19894490-648-d31/FT1086A/esp_phelps.jpg);
+}
+
+section.module.parallax h1 {
+    color: #fff;
+    text-align: center;
+    font-size: 78px;
+    z-index: 50;
+    text-transform: uppercase;
+}

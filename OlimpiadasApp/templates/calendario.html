@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendário</title>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'CSS/variables.css' %}">
+    <link rel="stylesheet" href="{% static 'CSS/classes.css' %}">
+    <link rel="stylesheet" href="{% static 'CSS/menu.css' %}">
+    <link rel="stylesheet" href="{% static 'CSS/calendario.css' %}">
+    <link rel="stylesheet" href="{% static 'calendario/evo-calendar.midnight-blue.min.css' %}">
+    <link rel="stylesheet" href="{% static 'calendario/evo-calendar.min.css' %}">
+    <link rel="stylesheet" href="{% static 'CSS/styles.css' %}">
+
+
+</head>
+
+<body class="main-calendario section">
+    <aside class="menu white-bg">
+        <div class="main-content menu-content">
+
+            <a href="/"><img
+                    src="https://www.infoescola.com/wp-content/uploads/2007/10/jogos-olimpicos-450x225.png"
+                    alt="logo das olimpiadas" width="100" height="50"></a>
+
+
+            <nav>
+                <ul>
+                    <li class="menu-drop"><a href="#"> Esportes <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                                <path
+                                    d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
+                            </svg></a>
+                        <div class="drop">
+                            <a href="/boxe">Boxe</a>
+                            <a href="/basquete">Basquete</a>
+                            <a href="/futebol">Futebol</a>
+                            <a href="/natacao">Natação</a>
+                            <a href="/tiro_com_arco">Tiro com Arco</a>
+                            <a href="/volei">Vôlei</a>
+                            <a href="/100_metros_rasos">100 metros rasos</a>
+                        </div>
+                    </li>
+                    <li><a href="/calendario"> Calendário </a></li>
+                    <li><a href="/quadro_de_medalhas"> Quadro De Metalhas </a></li>
+                    <li><a href="/registro"> Registro </a></li>
+                </ul>
+            </nav>
+        </div>
+    </aside>
+
+    <div class="calendario-spacing"></div>
+    <section class="wrapper">
+        <main>
+            <section class="module parallax parallax-1">
+                <h1>CALENDARIO DOS JOGOS</h1>
+            </section>
+        </main>
+    </section>
+    <section class="module content">
+
+        <div class="hero">
+            <div id="calendar"></div>
+
+
+        </div>
+
+        {% load static %}
+        <script src="{% static 'calendario/evo-calendar.min.js' %}"></script>
+        <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('#calendar').evoCalendar({
+                    calendarEvents: [
+                        {
+                            id: 'event1', // Event's ID (required)
+                            name: "New Year", // Event name (required)
+                            date: "Janeiro/1/2024", // Event date (required)
+                            description: "oi",
+                            type: "holiday", // Event type (required)
+                            everyYear: true // Same event every year (optional)
+                        },
+                        {
+                            name: "Vacation Leave",
+                            badge: "02/13 - 02/15", // Event badge (optional)
+                            date: ["February/13/2020", "February/15/2020"], // Date range
+                            description: "Vacation leave for 3 days.", // Event description (optional)
+                            type: "event",
+                            color: "#63d867" // Event custom color (optional)
+                        }
+                    ]
+                })
+            })
+            $('#calendar').evoCalendar({
+                'language': 'pt'
+            });
+        </script>
+
+    </section>
+
+
+
+</body>
+
+</html>

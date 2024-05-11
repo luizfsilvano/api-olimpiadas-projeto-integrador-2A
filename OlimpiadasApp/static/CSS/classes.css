@@ -1,0 +1,125 @@
+section.module.parallax {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100vh !important;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+}
+
+section.module.parallax:after {
+    content: "";
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    z-index: 8;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0)0, rgba(0, 0, 0, 0) 40%, #000 100%);
+}
+
+section.module.parallax-1 {
+    background-image: url(https://s2-ge.glbimg.com/2fG7saVV4tSPW5UdeB2d8xnHidI=/0x0:1201x676/984x0/smart/filters:strip_icc/i.s3.glbimg.com/v1/AUTH_bc8228b6673f488aa253bbcb03c80ec5/internal_photos/bs/2022/c/U/DlOrRtS7itwAkkfm4aow/paris-2024-jogos-olimpicos-olimpiadas.png);
+}
+
+section.module.parallax-2 {
+    background-image: url(https://ichef.bbci.co.uk/ace/ws/800/cpsprodpb/146F6/production/_119520738_79686f30-eefe-4e8b-a8c8-a536352e7c59.jpg);
+}
+
+section.module.parallax-3 {
+    background-image: url(https://www.olimpiadatododia.com.br/wp-content/uploads/2024/02/Design-sem-nome-2024-02-08T082657.372.jpg);
+}
+section.module.parallax-4{
+    background-image: url(https://cdn.atarde.com.br/img/Artigo-Destaque/1260000/1200x0/Para-Olimpiadas-Aneis-olimpicos-serao-instalados-n0126528600202404081635-ScaleDownProportional.webp?fallback=https%3A%2F%2Fcdn.atarde.com.br%2Fimg%2FArtigo-Destaque%2F1260000%2FPara-Olimpiadas-Aneis-olimpicos-serao-instalados-n0126528600202404081635.jpg%3Fxid%3D6172360%26resize%3D1000%252C500%26t%3D1714795693&xid=6172360);
+}
+section.module.parallax-5{
+    background-image: url(https://s3.static.brasilescola.uol.com.br/be/2024/04/imagem-da-tocha-olimpica.jpg);
+}
+
+section.module.parallax h1 {
+    color: #fff;
+    text-align: center;
+    font-size: 78px;
+    z-index: 50;
+    text-transform: uppercase;
+}
+
+.white-bg {
+    background: var(--white-color);
+    color: var(--primary-color);
+
+}
+
+.main-content {
+    max-width: 120rem;
+    margin: 0 auto;
+    padding: var(--gap);
+}
+
+.section {
+    min-height: 100vh;
+}
+
+.menu-spacing {
+    height: 65px;
+}
+
+.jogos-content {
+    padding-bottom: 50%;
+    text-align: center;
+
+    max-width: 120rem;
+    margin: 0 auto;
+    padding: var(--gap);
+    
+
+    p{
+        font-size: 3rem;
+        font-family: Arial, Helvetica, sans-serif;
+        max-width: 64rem;
+        float: right;
+        
+    }
+
+    h1 {
+        font-size: 4em;
+        float: left;
+        font-family: 'Times New Roman', Times, serif;
+        display: block;
+        
+    }
+
+    h1 span {
+        display: block;
+        
+        
+    }
+}
+.historia-content {
+    max-width: 120rem;
+    margin: 0 auto;
+    padding: var(--gap);
+    
+    p {
+        margin-bottom: 10px;
+        
+    }
+
+    h2 {
+        justify-content: space-between;
+        margin-bottom: 30px;
+        font-size: 3em;
+        margin-bottom: 0;
+        padding: 20px; 
+    }
+
+}
+.espaço{
+    margin-bottom: 300px;
+}

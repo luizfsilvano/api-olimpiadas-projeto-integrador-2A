@@ -1,0 +1,45 @@
+section.module.parallax {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100vh !important;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+}
+
+section.module.parallax:after {
+    content: "";
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    z-index: 8;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0)0, rgba(0, 0, 0, 0) 40%, #000 100%);
+}
+
+section.module.parallax-1 {
+    background-image: url(https://istoe.com.br/wp-content/uploads/2021/07/000-9he39k-scaled-e1627628518379.jpg?x97233);
+}
+section.module.parallax-2 {
+    background-image: url(https://media.gazetadopovo.com.br/2012/08/6508117735965e11912d8be43a1467ff-gpMega.jpg);
+}
+
+section.module.parallax-3 {
+    background-image: url(https://wanderleioliveira.band.uol.com.br/wp-content/uploads/2017/08/Usain-Bolt-200m-Jogos-Olimpicos-Rio-Odd-Andersen-AFP.jpg);
+}
+
+
+section.module.parallax h1 {
+    color: #fff;
+    text-align: center;
+    font-size: 78px;
+    z-index: 50;
+    text-transform: uppercase;
+}

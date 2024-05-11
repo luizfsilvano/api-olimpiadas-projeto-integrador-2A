@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TIRO COM ARCO</title>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'CSS/variables.css' %}">
+    <link rel="stylesheet" href="{% static 'CSS/classes.css' %}">
+    <link rel="stylesheet" href="{% static 'CSS/menu.css' %}">
+    <link rel="stylesheet" href="{% static 'CSS/tiro_com_arco.css' %}">
+    <link rel="stylesheet" href="{% static 'CSS/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'CSS/slide.css' %}">
+    <link rel="stylesheet" href="{% static 'CSS/slide2.css' %}">
+
+</head>
+
+<body class="main-basquete section">
+    <aside class="menu white-bg">
+        <div class="main-content menu-content">
+
+            <a href="/"><img
+                    src="https://www.infoescola.com/wp-content/uploads/2007/10/jogos-olimpicos-450x225.png"
+                    alt="logo das olimpiadas" width="100" height="50"></a>
+
+
+            <nav>
+                <ul>
+                    <li class="menu-drop"><a href="#"> Esportes <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                                <path
+                                    d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
+                            </svg></a>
+                        <div class="drop">
+                            <a href="/boxe">Boxe</a>
+                            <a href="/basquete">Basquete</a>
+                            <a href="/futebol">Futebol</a>
+                            <a href="/natacao">Natação</a>
+                            <a href="/tiro_com_arco">Tiro com Arco</a>
+                            <a href="/volei">Vôlei</a>
+                            <a href="/100_metros_rasos">100 metros rasos</a>
+                        </div>
+                    </li>
+                    <li><a href="/calendario"> Calendário </a></li>
+                    <li><a href="/quadro_de_medalhas"> Quadro De Metalhas </a></li>
+                    <li><a href="/registro"> Registro </a></li>
+                </ul>
+            </nav>
+        </div>
+    </aside>
+    <div class="menu-spacing"></div>
+
+    <section class="wrapper">
+        <main>
+            <section class="module parallax parallax-1">
+                <h1>TIRO COM ARCO</h1>
+            </section>
+        </main>
+    </section>
+    <section class="module content">
+        <div class="container">
+            <h2>Tiro com Arco Masculino</h2>
+        </div>
+        <div class="slideshow-container">
+            <div class="slides">
+                <div class="slide">
+                    <a href=""></a><img src="https://maranhaoindependente.com.br/wp-content/uploads/2021/07/i-fcbdlkw-l.jpg"
+                        alt="Imagem 1">
+                    <div class="text">Veja agora a tabela de jogos</div></a>
+                </div>
+                <div class="slide">
+                    <a href=""><img
+                            src="https://imgsapp.mg.superesportes.com.br/app/noticia_126420360808/2016/03/14/331494/20160317192811280357e.jpg "
+                            alt="Imagem 2">
+                        <div class="text">Veja quem esta na fase de grupos</div>
+                    </a>
+                </div>
+                <div class="slide">
+                    <a href=""><img src="https://organicsnewsbrasil.com.br/wp-content/uploads/2016/07/tiro_com_arco.jpg" alt="Imagem 3">
+                        <div class="text">Veja quem passou para o mata-mata para chegar na final</div>
+                    </a>
+                </div>
+            </div>
+            <div class="dots-container">
+                <span class="dot" onclick="currentSlide(1)"></span>
+                <span class="dot" onclick="currentSlide(2)"></span>
+                <span class="dot" onclick="currentSlide(3)"></span>
+            </div>
+        </div>
+
+    </section>
+    <section class="module content">
+        <div class="container">
+            <h2>Tiro com Arco Feminino</h2>
+        </div>
+
+        <div class="apresentacao-container">
+            <div class="apresentacoes">
+                <div class="apresentacao">
+                    <a href=""><img src="https://www.cob.org.br/pt/img/noticia/imagem/5047/grande/" alt="Imagem 1">
+                        <div class="texto">Veja agora a tabela de jogos</div>
+                    </a>
+                </div>
+                <div class="apresentacao">
+                    <a href=""><img src="https://conteudo.imguol.com.br/c/esporte/d0/2021/07/22/ane-marcelle-dos-santos-na-primeira-fase-do-individual-feminino-do-tiro-com-arco-nas-olimpiadas-de-toquio-1627008008789_v2_900x506.jpg.webp" alt="Imagem 2">
+                        <div class="texto">Veja quem esta na fase de grupos</div>
+                    </a>
+                </div>
+                <div class="apresentacao">
+                    <a href=""><img
+                            src="http://cdn.espn.com.br/image/wide/622_a61e8193-258c-3a6e-860f-679b9a94147d.jpg"
+                            alt="Imagem 3">
+                        <div class="texto">Veja quem passou para o mata-mata para chegar na final</div>
+                    </a>
+                </div>
+            </div>
+            <div class="pontos-container">
+                <span class="ponto" onclick="slideAtual(1)"></span>
+                <span class="ponto" onclick="slideAtual(2)"></span>
+                <span class="ponto" onclick="slideAtual(3)"></span>
+            </div>
+        </div>
+        <section class="wrapper">
+            <main>
+                <section class="module parallax parallax-2">
+                    <h1>Regras do Tiro com Arco</h1>
+                </section>
+
+                <section class="module content">
+                    <div class="container">
+                        <p>Os alvos têm 122 centímetros de diâmetro e estão posicionados a 70 metros de distância dos arqueiros, que devem atirar suas flechas o mais próximo possível do centro para vencer seus oponentes. O tiro com arco Olímpico é composto por cinco provas: duas individuais para homens e mulheres, duas por equipes (uma para cada gênero) e uma competição mista por equipes, que retorna ao programa após fazer sua estreia Olímpica em Tóquio 2020. </p>
+                        <p>O tiro com arco requer grande concentração e destreza; os arqueiros devem superar a pressão, pois um único erro pode custar caro na competição. As provas individuais nos Jogos começam com a rodada de classificação, em que cada um dos 64 atletas dispara 72 flechas para determinar sua posição para a chave eliminatória simples. Eles competem no sistema de mata-mata até a final de acordo com sua classificação, com o arqueiro melhor colocado enfrentando o 64º, o segundo contra o 63º, e assim por diante.</p>
+                        <p>O torneio por equipes utiliza os mesmos resultados de classificação da competição individual para determinar a posição das equipes; as quatro primeiras entram diretamente nas quartas de final, enquanto o restante compete em uma chave de eliminação única. O evento misto por equipes também usa os resultados da rodada de classificação individual para listar as equipes.</p>
+                    </div>
+                </section>
+
+            </main>
+        </section>
+        <div class="elemento"></div>
+
+        <section class="wrapper">
+            <main>
+                <section class="module parallax parallax-3">
+                    <h1>HISTÓRIA OLÍMPICA</h1>
+                </section>
+
+                <section class="module content">
+                    <div class="container">
+                        <p>O tiro com arco é um dos esportes mais antigos praticados atualmente e está intimamente ligado ao desenvolvimento da civilização humana. Historicamente, o tiro com arco é usado para caça e guerra; a evidência mais antiga de seu uso vem de alguns locais da África do Sul, como a Caverna de Sibudu, onde foram encontradas pontas de flechas datadas de aproximadamente 64.000 anos. Os primeiros torneios registrados de tiro com arco ocorreram na China durante a dinastia Zhou (1027 – 256 a.C.) Em 1931, o esporte evoluiu em todo o mundo e foi fundada a Federação Internacional de Tiro com Arco, atualmente conhecida como World Archery.</p>
+                        <p>O tiro com arco apareceu pela primeira vez nos Jogos Olímpicos Paris 1900 e foi disputado novamente nos Jogos de St. Louis (1904), Londres (1908) e Antuérpia (1920) antes de um hiato de 52 anos no programa Olímpico. </p>
+                        <p>Foi reintroduzido nos Jogos Olímpicos de 1972, em Munique, e permanece desde então. A República da Coreia é a nação mais bem-sucedida do esporte nos Jogos Olímpicos, conquistando 27 medalhas de ouro, nove de prata e sete de bronze, totalizando 43.</p>
+                    </div>
+                </section>
+
+            </main>
+        </section>
+    </section>
+    {% load static %}
+    <script src="{% static 'JS/slides.js' %}"></script>
+    <script src="{% static 'JS/slides2.js' %}"></script>
+</body>
+
+</html>

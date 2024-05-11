@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Futebol</title>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'CSS/varibles.css' %}">
+    <link rel="stylesheet" href="{% static 'CSS/classes.css' %}">
+    <link rel="stylesheet" href="{% static 'CSS/menu.css' %}">
+    <link rel="stylesheet" href="{% static 'CSS/futebol.css' %}">
+    <link rel="stylesheet" href="{% static 'CSS/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'CSS/slide.css' %}">
+    <link rel="stylesheet" href="{% static 'CSS/slide2.css' %}">
+
+</head>
+
+<body class="main-basquete section">
+    <aside class="menu white-bg">
+        <div class="main-content menu-content">
+
+            <a href="/"><img
+                    src="https://www.infoescola.com/wp-content/uploads/2007/10/jogos-olimpicos-450x225.png"
+                    alt="logo das olimpiadas" width="100" height="50"></a>
+
+
+            <nav>
+                <ul>
+                    <li class="menu-drop"><a href="#"> Esportes <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                                <path
+                                    d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
+                            </svg></a>
+                        <div class="drop">
+                            <a href="/boxe">Boxe</a>
+                            <a href="/basquete">Basquete</a>
+                            <a href="/futebol">Futebol</a>
+                            <a href="/natacao">Natação</a>
+                            <a href="/tiro_com_arco">Tiro com Arco</a>
+                            <a href="/volei">Vôlei</a>
+                            <a href="/100_metros_rasos">100 metros rasos</a>
+                        </div>
+                    </li>
+                    <li><a href="/calendario"> Calendário </a></li>
+                    <li><a href="/quadro_de_medalhas"> Quadro De Metalhas </a></li>
+                    <li><a href="/registro"> Registro </a></li>
+                </ul>
+            </nav>
+        </div>
+    </aside>
+    <div class="menu-spacing"></div>
+
+    <section class="wrapper">
+        <main>
+            <section class="module parallax parallax-1">
+                <h1>FUTEBOL</h1>
+            </section>
+        </main>
+    </section>
+    <section class="module content">
+        <div class="container">
+            <h2>Futebol Masculino</h2>
+        </div>
+        <div class="slideshow-container">
+            <div class="slides">
+                <div class="slide">
+                    <a href=""></a><img src="https://cdn.folhape.com.br/img/pc/1100/1/dn_arquivo/2024/01/53496442466-2fa1decc7a-c.jpg"
+                        alt="Imagem 1">
+                    <div class="text">Veja agora a tabela de jogos</div></a>
+                </div>
+                <div class="slide">
+                    <a href=""><img
+                            src=" https://www.cnnbrasil.com.br/wp-content/uploads/sites/12/2021/08/1-5-e1628339931281.jpg?w=732&h=412&crop=1"
+                            alt="Imagem 2">
+                        <div class="text">Veja quem esta na fase de grupos</div>
+                    </a>
+                </div>
+                <div class="slide">
+                    <a href=""><img src="https://agendacapital.com.br/wp-content/uploads/2024/02/98394983c454d7477580968cb7e4f559599d03f0w.jpg" alt="Imagem 3">
+                        <div class="text">Veja quem passou para o mata-mata para chegar na final</div>
+                    </a>
+                </div>
+            </div>
+            <div class="dots-container">
+                <span class="dot" onclick="currentSlide(1)"></span>
+                <span class="dot" onclick="currentSlide(2)"></span>
+                <span class="dot" onclick="currentSlide(3)"></span>
+            </div>
+        </div>
+
+    </section>
+    <section class="module content">
+        <div class="container">
+            <h2>Futebol Feminino</h2>
+        </div>
+
+        <div class="apresentacao-container">
+            <div class="apresentacoes">
+                <div class="apresentacao">
+                    <a href=""><img src="https://s2-ge.glbimg.com/mVosH0gFvOQC5XVPRR1NJ0la0P0=/0x0:4000x2739/1000x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_bc8228b6673f488aa253bbcb03c80ec5/internal_photos/bs/2021/b/g/ZZ5RAuQzuh5jF9ZybAHA/gettyimages-1323556710.jpg" alt="Imagem 1">
+                        <div class="texto">Veja agora a tabela de jogos</div>
+                    </a>
+                </div>
+                <div class="apresentacao">
+                    <a href=""><img src="https://i1.wp.com/allansimon.com.br/wp-content/uploads/2020/01/marta-olimp%C3%ADadas-2020-brasil.jpeg?resize=910%2C455&ssl=1" alt="Imagem 2">
+                        <div class="texto">Veja quem esta na fase de grupos</div>
+                    </a>
+                </div>
+                <div class="apresentacao">
+                    <a href=""><img
+                            src="https://static.corinthians.com.br/uploads/16292984807aee26c309def8c5a2a076eb250b8f36.jpg"
+                            alt="Imagem 3">
+                        <div class="texto">Veja quem passou para o mata-mata para chegar na final</div>
+                    </a>
+                </div>
+            </div>
+            <div class="pontos-container">
+                <span class="ponto" onclick="slideAtual(1)"></span>
+                <span class="ponto" onclick="slideAtual(2)"></span>
+                <span class="ponto" onclick="slideAtual(3)"></span>
+            </div>
+        </div>
+        <section class="wrapper">
+            <main>
+                <section class="module parallax parallax-2">
+                    <h1>Regras do Futebol</h1>
+                </section>
+
+                <section class="module content">
+                    <div class="container">
+                        <p> A competição feminina nos Jogos Olímpicos é organizada exatamente da mesma forma que os torneios da FIFA: duas equipes de 11 jogadoras disputam uma partida de 90 minutos (mais os acréscimos) dividida em dois tempos de 45 minutos em um gramado. As mesmas regras se aplicam ao torneio masculino, mas com uma pequena diferença na composição das equipes: cada uma deve ser composta inteiramente por jogadores nascidos a partir de 1º de janeiro de 2001 (23 anos no período de Paris 2024). Entretanto, três (3) jogadores nascidos antes da data mencionada, acima do limite, podem ser incluídos na lista de convocados (18 atletas por equipe).</p>
+                        <p>O futebol também é um dos poucos esportes nos Jogos que começa antes da cerimônia de abertura por conta do número de partidas; desde os Jogos Olímpicos Sydney 2000, o torneio do futebol começa dois dias antes da abertura oficial dos Jogos.</p>
+                    </div>
+                </section>
+
+            </main>
+        </section>
+        <div class="elemento"></div>
+
+        <section class="wrapper">
+            <main>
+                <section class="module parallax parallax-3">
+                    <h1>HISTÓRIA OLÍMPICA</h1>
+                </section>
+
+                <section class="module content">
+                    <div class="container">
+                        <p> Embora o futebol tenha suas raízes na China antiga, a versão moderna do jogo nasceu nas ruas da Inglaterra medieval antes de se tornar no esporte mais popular do mundo.</p>
+                        <p>Os (vários) jogos antigos de futebol na Inglaterra medieval envolviam uma grande massa de pessoas que tentavam arrastar uma bexiga de porco – por qualquer meio possível – a marcadores em extremidades opostas na cidade. Tais eventos eram bastante conhecidos tanto por serem violentos quanto populares. No século 16, as escolas inglesas estabeleceram as regras do futebol moderno, transformando assim o que eram tumultos de multidão em um esporte padronizado.</p>
+                        <p>O futebol foi incluído pela primeira vez no programa Olímpico nos Jogos da II Olimpíada (Paris 1900) e tem sido disputado em todas as edições desde então, com exceção dos Jogos de Los Angeles, em 1932 (em uma tentativa de promover a recém-criada Copa do Mundo masculina da FIFA).</p>
+                        <p>O futebol feminino fez sua estreia olímpica nos Jogos de Atlanta, em 1996. O time dos Estados Unidos terminou no topo do pódio várias vezes, incluindo Atlanta 1996, Atenas 2004, Pequim 2008 e Londres 2012. A Alemanha conquistou o ouro no Rio 2016, enquanto o Canadá é o atual campeão Olímpico após triunfar em Tóquio 2020.</p>
+                        <p>A Europa dominou a competição masculina até os Jogos de 1992 em Barcelona, quando a Espanha se tornou a última seleção europeia a ganhar uma medalha de ouro. Desde os Jogos Olímpicos de 1996, em Atlanta, as seleções africanas e latino-americanas conquistaram todas as medalhas de ouro.</p>
+                    </div>
+                </section>
+
+            </main>
+        </section>
+    </section>
+    {% load static %}
+    <script src="{% static 'JS/slides.js' %}"></script>
+    <script src="{% static 'JS/slides2.js' %}"></script>
+</body>
+
+</html>

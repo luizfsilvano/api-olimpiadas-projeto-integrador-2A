@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>100 Metros Rasos</title>
+    
+
+    {% load static %} 
+    <link rel="stylesheet" type="text/css" href="{% static 'CSS/variables.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'CSS/classes.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'CSS/menu.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'CSS/100_metros_rasos.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'CSS/styles.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'CSS/slide.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'CSS/slide2.css' %}">
+
+</head>
+
+<body class="main-basquete section">
+    <aside class="menu white-bg">
+        <div class="main-content menu-content">
+
+            <a href="/"><img
+                    src="https://www.infoescola.com/wp-content/uploads/2007/10/jogos-olimpicos-450x225.png"
+                    alt="logo das olimpiadas" width="100" height="50"></a>
+
+
+            <nav>
+                <ul>
+                    <li class="menu-drop"><a href="#"> Esportes <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                                <path
+                                    d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
+                            </svg></a>
+                        <div class="drop">
+                            <a href="/boxe">Boxe</a>
+                            <a href="/basquete">Basquete</a>
+                            <a href="/futebol">Futebol</a>
+                            <a href="/natacao">Natação</a>
+                            <a href="/tiro_com_arco">Tiro com Arco</a>
+                            <a href="/volei">Vôlei</a>
+                            <a href="/100_metros_rasos">100 metros rasos</a>
+                        </div>
+                    </li>
+                    <li><a href="/calendario"> Calendário </a></li>
+                    <li><a href="/quadro_de_medalhas"> Quadro De Metalhas </a></li>
+                    <li><a href="/registro"> Registro </a></li>
+                </ul>
+            </nav>
+        </div>
+    </aside>
+    <div class="menu-spacing"></div>
+
+    <section class="wrapper">
+        <main>
+            <section class="module parallax parallax-1">
+                <h1>100 METROS RASOS</h1>
+            </section>
+        </main>
+    </section>
+    <section class="module content">
+        <div class="container">
+            <h2>100 Metros Rasos Masculino</h2>
+        </div>
+        <div class="slideshow-container">
+            <div class="slides">
+                <div class="slide">
+                    <a href=""></a><img src="https://www.correiodopovo.com.br/image/contentid/policy:1.1143278:1678068567/278014.JPG?f=2x1&$p$f=deda3f9&w=2400&$w=d2ad2f2"
+                        alt="Imagem 1">
+                    <div class="text">Veja agora a tabela de jogos</div></a>
+                </div>
+                <div class="slide">
+                    <a href=""><img src="https://www.olimpiadatododia.com.br/wp-content/uploads/2021/05/Usain-Bolt.jpg"alt="Imagem 2">
+                        <div class="text">Veja quem esta na fase de grupos</div>
+                    </a>
+                </div>
+                <div class="slide">
+                    <a href=""><img src="https://www.olimpiadatododia.com.br/wp-content/uploads/2021/05/Carl-Lewis.jpg">
+                        <div class="text">Veja quem passou para o mata-mata para chegar na final</div>
+                    </a>
+                </div>
+            </div>
+            <div class="dots-container">
+                <span class="dot" onclick="currentSlide(1)"></span>
+                <span class="dot" onclick="currentSlide(2)"></span>
+                <span class="dot" onclick="currentSlide(3)"></span>
+            </div>
+        </div>
+
+    </section>
+    <section class="module content">
+        <div class="container">
+            <h2>100 Metros Rasos Feminino</h2>
+        </div>
+
+        <div class="apresentacao-container">
+            <div class="apresentacoes">
+                <div class="apresentacao">
+                    <a href=""><img src="https://newr7-r7-prod.web.arc-cdn.net/resizer/v2/TKS5FPH77FNL3PGOXULJBF2E6I.jpg?auth=1cd473f52178b9bf606f3b1a435daa515e590cd3879fcd7c7393e35f8321594b&width=770&height=474" alt="Imagem 1">
+                        <div class="texto">Veja agora a tabela de jogos</div>
+                    </a>
+                </div>
+                <div class="apresentacao">
+                    <a href=""><img src="https://www.ecp.org.br/wp-content/uploads/2023/07/wc_001_33.jpg" alt="Imagem 2">
+                        <div class="texto">Veja quem esta na fase de grupos</div>
+                    </a>
+                </div>
+                <div class="apresentacao">
+                    <a href=""><img src="https://www.correiodopovo.com.br/image/contentid/policy:1.1143186:1678068301/277546.JPG?f=2x1&$p$f=00254d4&w=2400&$w=d2ad2f2"
+                            alt="Imagem 3">
+                        <div class="texto">Veja quem passou para o mata-mata para chegar na final</div>
+                    </a>
+                </div>
+            </div>
+            <div class="pontos-container">
+                <span class="ponto" onclick="slideAtual(1)"></span>
+                <span class="ponto" onclick="slideAtual(2)"></span>
+                <span class="ponto" onclick="slideAtual(3)"></span>
+            </div>
+        </div>
+        <section class="wrapper">
+            <main>
+                <section class="module parallax parallax-2">
+                    <h1>Regras do 100 Metros Rasos</h1>
+                </section>
+
+                <section class="module content">
+                    <div class="container">
+                        <p>O evento dos 100 metros rasos é uma corrida de velocidade em que os competidores correm em uma pista reta. O objetivo é cruzar a linha de chegada no menor tempo possível.</p>
+                        <p>Os competidores são posicionados em blocos de largada na linha de partida. Eles devem permanecer imóveis e na posição de agachamento até que o tiro de largada seja dado.</p>
+                        <p>Após o tiro de largada, os competidores correm o mais rápido possível em linha reta até a linha de chegada, uma distância de exatamente 100 metros. O atleta que cruzar a linha de chegada primeiro é o vencedor.</p>
+                        <p>É importante observar que há regras específicas sobre largadas queimadas, falsas partidas e desqualificações por conduta imprópria durante a corrida.</p>
+                    </div>
+                </section>
+
+            </main>
+        </section>
+        <div class="elemento"></div>
+
+        <section class="wrapper">
+            <main>
+                <section class="module parallax parallax-3">
+                    <h1>HISTÓRIA OLÍMPICA</h1>
+                </section>
+
+                <section class="module content">
+                    <div class="container">
+                        <p>Disputado nos primeiros Jogos Olímpicos da antiguidade, o atletismo é um dos esportes mais antigos já registrados, com os nomes dos campeões documentados desde 776 a.C. Os Jogos Olímpicos da antiguidade incluíam provas como corridas e um pentatlo que consistia em corrida, salto em distância, lançamento de disco, lançamento de dardo e luta. Os primeiros eventos dos tempos modernos que podem ser comparados às competições de atletismo como conhecemos hoje ocorreram em 1840 em Shropshire, Inglaterra. Outros campeonatos deste tipo começaram a prosperar e se espalhar na década de 1880, principalmente na Inglaterra, EUA e Europa. Em 1912, foi criada a IAAF (agora conhecida como World Athletics), federação internacional que supervisiona as competições internacionais de atletismo.</p>
+                        <p>Foi uma escolha lógica incluir o atletismo na primeira edição dos Jogos Olímpicos da era moderna em 1896, em Atenas, Grécia. A posição milenar no programa Olímpico faz do atletismo a joia da coroa dos Jogos Olímpicos de Verão. As provas masculinas permanecem inalteradas desde os Jogos de Los Angeles, em 1932, exceto pela inclusão da marcha atlética de 20km na edição de Melbourne, em 1956. As provas femininas apareceram pela primeira vez nos Jogos Olímpicos de 1928, em Amsterdã. As mulheres tiveram apenas 17 provas até 1992, mas com a incorporação dos 3.000m com obstáculo feminino em 2008, as atletas competem atualmente no mesmo número de eventos que os homens.</p>
+                        <p>A década de 1960 assistiu a um boom no atletismo nos países em desenvolvimento, com o alcance do esporte se espalhando em todo o mundo. Nos Jogos Olímpicos Beijing 2008, atletas de 62 países competiram nas finais.</p>
+                    </div>
+                </section>
+
+            </main>
+        </section>
+    </section>
+    {% load static %}
+    <script src="{% static 'JS/slides.js' %}"></script>
+    <script src="{% static 'JS/slides2.js' %}"></script>
+
+</body>
+
+</html>

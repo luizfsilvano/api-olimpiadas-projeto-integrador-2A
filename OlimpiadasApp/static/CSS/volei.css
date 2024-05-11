@@ -1,0 +1,45 @@
+section.module.parallax {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100vh !important;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+}
+
+section.module.parallax:after {
+    content: "";
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    z-index: 8;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0)0, rgba(0, 0, 0, 0) 40%, #000 100%);
+}
+
+section.module.parallax-1 {
+    background-image: url(https://opopular.com.br/image/policy%3A1.2297058%3A1676277115%2Fimage.jpg%3F%26f%3D3x2 );
+}
+
+section.module.parallax-2 {
+    background-image: url(https://imagens.ebc.com.br/pMnEaq45FF6fTgVA-MKZqxO1Y-M=/1170x700/smart/https://agenciabrasil.ebc.com.br/sites/default/files/thumbnails/image/2021-07-30t041610z_51811221_sp1eh7u0buu0t_rtrmadp_3_olympics-2020-vvo-m-team6-gpb-001000.jpg?itok=V04oDPhq);
+}
+
+section.module.parallax-3 {
+    background-image: url(https://imagens.ebc.com.br/MT_UxUXnESe9yQESMEbkUKduD3k=/1170x700/smart/https://agenciabrasil.ebc.com.br/sites/default/files/thumbnails/image/volfem_wr_29.07.21-6544.jpg?itok=8jAWvX18);
+}
+
+section.module.parallax h1 {
+    color: #fff;
+    text-align: center;
+    font-size: 78px;
+    z-index: 50;
+    text-transform: uppercase;
+}

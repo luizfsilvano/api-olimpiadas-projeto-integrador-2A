@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OlimpiadasPI2</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"> <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> <link href="https: //fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel= "folha de estilo">
+    
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'CSS/registro.css' %}">
+    <link rel="stylesheet" href="{% static 'CSS/menu.css' %}">
+    <link rel="stylesheet" href="{% static 'CSS/variables.css' %}">
+    <link rel="stylesheet" href="{% static 'CSS/classes.css' %}">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    
+</head>
+<body class=" section" >
+    <aside class="menu white-bg">
+        <div class="main-content menu-content">
+            
+            <a href="index.html"><img src="https://www.infoescola.com/wp-content/uploads/2007/10/jogos-olimpicos-450x225.png"
+            alt="logo das olimpiadas" width="100" height="50"></a>
+            
+
+            <nav>
+                <ul>
+                    <li class="menu-drop"><a href="#">  Esportes  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                        <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+                      </svg></a>
+                    <div class="drop">
+                        <a href="box.html">Box</a>
+                        <a href="basquete.html">Basquete</a>
+                        <a href="futebol.html">Futebol</a>
+                        <a href="nataçao.html">Natação</a>
+                        <a href="tiro_com_arco.html">Tiro com Arco</a>
+                        <a href="volei.html">Vôlei</a>
+                        <a href="100_metros_rasos.html">100 metros rasos</a>
+                    </div>
+                    </li>
+                    <li><a href="/calendario"> Calendário </a></li>
+                    <li><a href="/quadro_de_medalhas"> Quadro De Metalhas </a></li>
+                    <li><a href="/registro"> Registro </a></li>
+                </ul>
+            </nav> 
+        </div> 
+
+    </aside>
+
+    <div class="menu-spacing"></div>
+    
+
+    
+    <section class="container-login">
+        <div class="registro">
+            <form action="" method="post">
+                {% csrf_token %}
+                <h1>Login</h1>
+                <div class="input-box">
+                    <input type="text" name="username" placeholder="Usuario" required>
+                    <i class='bx bxs-user'></i>
+                </div>
+                <div class="input-box">
+                    <input type="password" name="password1" placeholder="Senha" required>
+                    <i class='bx bxs-lock-alt'></i>
+                </div>
+                <div class="input-box">
+                    <input type="password" name="password2" placeholder="Confirme a Senha" required>
+                    <i class='bx bxs-lock-alt'></i>
+                </div>
+
+               <button type="Enviar" class="btn">Registrar-se</button>
+    
+               
+                
+            </form>
+        </div>
+        
+    </section> 
+    
+    
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section class="registro2">
+    
+</section>
