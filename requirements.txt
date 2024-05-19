@@ -70,3 +70,4 @@ wadllib
 Werkzeug
 xdg
 zipp
+marshmallow_enum
