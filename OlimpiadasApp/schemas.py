@@ -1,4 +1,14 @@
 from marshmallow import Schema, fields, pre_load, validate
+from marshmallow_enum import EnumField
+import enum
+
+class FaseEnum(enum.Enum):
+    OUTROS = "outros"
+    CLASSIFICACAO = "classificacao"
+    OITAVAS = "oitavas"
+    QUARTAS = "quartas"
+    SEMI = "semi"
+    FINAL = "final"
 
 class BaseSchema(Schema):
     @pre_load
@@ -53,6 +63,7 @@ class PartidasSchema(BaseSchema):
     esporte = fields.Str(required=True)
     data = fields.Str(required=True)
     local = fields.Str(required=True)
-    fase = fields.Str()
+    fase = EnumField(FaseEnum, by_value=True, required=True)
     resultado = fields.Nested(ResultadoSchema, required=False)
     detalhes = fields.Dict(required=True)
+

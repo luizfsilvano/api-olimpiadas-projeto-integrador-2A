@@ -13,6 +13,9 @@ from django.conf.urls.static import static
 
 urlpatterns = [
 
+    # Endpoint para teste
+    path('hello', hello, name='hello'),
+
     # Pagina padrão de administração do Django
     path('admin', admin.site.urls),
     

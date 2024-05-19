@@ -7,6 +7,18 @@ from bson.errors import InvalidId
 from passlib.hash import bcrypt
 from .views_esportes import *
 
+
+# Função para verificar se já existe um usuário com o mesmo username
+def check_username(username):
+    print(f"Checking username: {username}")
+    existing_user = db_handle.users.find_one({"username": username})
+    if existing_user:
+        print(f"Username {username} already exists")
+        return True
+    else:
+        print(f"Username {username} does not exist")
+        return False
+
 # Função para decodifiicar token
 def decode(token):
     return jwt.decode(token, SECRET_KEY, algorithms=["HS256"])   
@@ -28,6 +40,13 @@ def manage(request):
                 username = request.POST.get("username")
                 password = request.POST.get("password")
                 user_type = request.POST.get("user_type")
+
+                try:
+                    if check_username(username):
+                        return JsonResponse({"error": "409 - Usuário já existe"}, status=409)
+                except Exception as e:
+                    return JsonResponse({"error": "Erro interno do servidor"}, status=500)
+
                 hashed_password = pwd_context.hash(password)
                 user_data = {
                     "username": username,
@@ -219,3 +238,7 @@ def first_admin(request):
         return JsonResponse({"message": "201 - Usuário criado com sucesso!"}, status=201)
     else:
         return JsonResponse({"error": "Método não permitido"}, status=405)
+
+
+def hello(request):
+    return JsonResponse({"message": "Hello, World!"}, status=200)  
