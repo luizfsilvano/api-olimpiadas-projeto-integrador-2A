@@ -61,6 +61,7 @@ class ResultadoSchema(BaseSchema):
 class PartidasSchema(BaseSchema):
     esporte_id = fields.Str(required=True)
     esporte = fields.Str(required=True)
+    participantes = fields.List(fields.Str(), required=True)
     data = fields.Str(required=True)
     local = fields.Str(required=True)
     fase = EnumField(FaseEnum, by_value=True, required=True)

@@ -6,6 +6,7 @@ from bson import ObjectId
 from bson.errors import InvalidId
 from passlib.hash import bcrypt
 from .views_esportes import *
+import time, datetime
 
 
 # Função para verificar se já existe um usuário com o mesmo username
@@ -185,7 +186,13 @@ def login(request):
             password = request.POST.get("password")
             user = db_handle.users.find_one({"username": username})
             if user and pwd_context.verify(password, user["password"]):
-                token = jwt.encode({"username": username, "user_type": user["user_type"]}, SECRET_KEY, algorithm="HS256").decode('utf-8')
+                expiration_time = datetime.datetime.utcnow() + datetime.timedelta(minutes=5)  # 5 minutos para expirar
+                payload = {
+                    "username": username,
+                    "user_type": user["user_type"],
+                    "exp": expiration_time
+                }
+                token = jwt.encode(payload, SECRET_KEY, algorithm="HS256").decode('utf-8')
                 return JsonResponse({"token": token}, status=200)
             else:
                 return JsonResponse({"error": "Usuário ou senha inválidos"}, status=401)
