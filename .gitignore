@@ -1,3 +1,4 @@
 secret_key.env
 Olimpiadas.zip
 .dockerignore
+__pycache__
