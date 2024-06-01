@@ -147,8 +147,8 @@ def get_atletas(request):
     # Método para deletar um atleta passando o ID do atleta
     if request.method == 'DELETE':
         try:
-            # Verifica se o usuário é um admin
-            if not check_admin_permissions(request):
+            # verifica se o usuario é um juiz
+            if not check_refeer_permissions(request):
                 return JsonResponse({'message': '403 - Permissão negada'}, status=403)
             
             # Pega o ID do atleta da query da requisição
