@@ -16,7 +16,7 @@ load_dotenv(dotenv_path)
 SECRET_KEY = str(os.getenv("SECRET_KEY"))
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 # Marque como verdadeiro para permitir a execução de testes
 TESTING = False
