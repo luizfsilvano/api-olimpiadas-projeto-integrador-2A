@@ -28,6 +28,12 @@ def create_atleta(request, pais_id, esporte_id):
             pais = db_handle.paises.find_one({'_id': ObjectId(pais_id)})
             esporte = db_handle.esportes.find_one({'_id': ObjectId(esporte_id)})
 
+            if pais is None:
+                return JsonResponse({'message': 'País não encontrado'}, status=404)
+            
+            if esporte is None:
+                return JsonResponse({'message': 'Esporte não encontrado'}, status=404)
+
             # Adiciona o nome do país e do esporte aos dados
             data['pais'] = pais['nome']
             data['esporte'] = esporte['nome']
