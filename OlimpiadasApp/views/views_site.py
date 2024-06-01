@@ -5,6 +5,7 @@ from django.shortcuts import redirect
 from django import forms
 from Olimpiadas.settings import SECRET_KEY, db_user
 import requests
+from django.http import HttpResponse
 
 def index(request):
     return render(request, 'index.html')
@@ -30,11 +31,69 @@ def cem_metros_rasos(request):
 def tiro_com_arco(request):
     return render(request, 'tiro_com_arco.html')
 
-def calendario(request):
-    return render(request, 'calendario.html')
+def calendario(request):    
+    errors = {}
+    url = 'https://olimpiadasiesb-7780607c931d.herokuapp.com/esportes/partidas'
+    # Pegar o token do servidor
+    token_response = requests.post('https://olimpiadasiesb-7780607c931d.herokuapp.com/login/token', data={
+        'username': db_user,
+        'password': SECRET_KEY
+    })
+    if token_response.status_code != 200:
+        errors['token'] = ["Erro ao obter token de autenticação."]
+    else:
+        token = token_response.json().get('token')
+        if not token:
+            errors['token'] = ["Erro ao obter token de autenticação."]
+
+    headers = {'Authorization': f'Bearer {token}'}
+    response = requests.get(url, headers=headers)
+
+    eventos = response.json()
+    print(eventos)
+    return render(request, 'calendario.html', {'eventos': eventos})
 
 def quadro_de_medalhas(request):
-    return render(request, 'quadro_de_medalhas.html')
+    errors = {}
+    url = 'https://olimpiadasiesb-7780607c931d.herokuapp.com/medalhas'
+    # Pegar o token do servidor
+    token_response = requests.post('https://olimpiadasiesb-7780607c931d.herokuapp.com/login/token', data={
+        'username': db_user,
+        'password': SECRET_KEY
+    })
+    if token_response.status_code != 200:
+        errors['token'] = ["Erro ao obter token de autenticação."]
+    else:
+        token = token_response.json().get('token')
+        if not token:
+            errors['token'] = ["Erro ao obter token de autenticação."]
+
+    headers = {'Authorization': f'Bearer {token}'}
+    response = requests.get(url, headers=headers)
+    
+    # Verificar o conteúdo da resposta
+    try:
+        dados = response.json()
+    except ValueError:
+        return HttpResponse("Erro ao processar a resposta da API: não é um JSON válido.", status=500)
+
+    if not isinstance(dados, list):
+        return HttpResponse("Erro: A resposta da API não é uma lista de países e medalhas.", status=500)
+
+    # Processar os dados para calcular o total de medalhas e ordenar
+    for pais in dados:
+        try:
+            pais['total'] = pais['ouro'] + pais['prata'] + pais['bronze']
+        except KeyError:
+            return HttpResponse("Erro: Formato inesperado dos dados recebidos da API.", status=500)
+
+    dados_ordenados = sorted(dados, key=lambda x: (-x['total'], -x['ouro'], -x['prata'], -x['bronze']))
+
+    context = {
+        'medalhas': dados_ordenados
+    }
+
+    return render(request, 'quadro_de_medalhas.html', context)
 
 class CustomUserCreationForm(forms.Form):
     username = forms.CharField(max_length=150)

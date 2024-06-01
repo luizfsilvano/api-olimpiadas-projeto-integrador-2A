@@ -69,35 +69,12 @@
         </div>
 
         {% load static %}
-        <script src="{% static 'calendario/evo-calendar.min.js' %}"></script>
         <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
-        <script>
-            $(document).ready(function () {
-                $('#calendar').evoCalendar({
-                    calendarEvents: [
-                        {
-                            id: 'event1', // Event's ID (required)
-                            name: "New Year", // Event name (required)
-                            date: "Janeiro/1/2024", // Event date (required)
-                            description: "oi",
-                            type: "holiday", // Event type (required)
-                            everyYear: true // Same event every year (optional)
-                        },
-                        {
-                            name: "Vacation Leave",
-                            badge: "02/13 - 02/15", // Event badge (optional)
-                            date: ["February/13/2020", "February/15/2020"], // Date range
-                            description: "Vacation leave for 3 days.", // Event description (optional)
-                            type: "event",
-                            color: "#63d867" // Event custom color (optional)
-                        }
-                    ]
-                })
-            })
-            $('#calendar').evoCalendar({
-                'language': 'pt'
-            });
-        </script>
+        <script src="{% static 'calendario/evo-calendar.min.js' %}"></script>
+        <script src="{% static 'calendario/logica.js' %}"></script>
+
+
+
 
     </section>
 

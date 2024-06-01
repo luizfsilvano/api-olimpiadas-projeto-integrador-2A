@@ -38,8 +38,6 @@ class AtletasSchema(BaseSchema):
 class MedalhasSchema(BaseSchema):
     pais_id = fields.Str(required=True)
     pais = fields.Str(required=True)
-    esporte = fields.Str()
-    atleta = fields.Str()
     ouro = fields.Int(default=0, missing=0)
     prata = fields.Int(default=0, missing=0)
     bronze = fields.Int(default=0, missing=0)
@@ -65,6 +63,6 @@ class PartidasSchema(BaseSchema):
     data = fields.Str(required=True)
     local = fields.Str(required=True)
     fase = EnumField(FaseEnum, by_value=True, required=True)
-    resultado = fields.Nested(ResultadoSchema, required=False)
-    detalhes = fields.Dict(required=True)
+    resultado = fields.Nested(ResultadoSchema, required=True)
+    detalhes = fields.Dict(required=False, default={})
 

@@ -8,6 +8,7 @@ from bson.errors import InvalidId
 from passlib.context import CryptContext
 from Olimpiadas.settings import db_name, uri, SECRET_KEY
 from datetime import datetime
+from bson.objectid import ObjectId
 
 # Conexão com o banco de dados
 db_handle, client = get_db_handle(db_name, uri)
@@ -107,9 +108,6 @@ class JSONEncoder(json.JSONEncoder):
 # Atualizar contador de medalhas
 def atualizar_contador_medalhas(data):
     resultado = data.get("resultado")
-    esporte_id = data.get("esporte_id")
-    esporte = db_handle.esportes.find_one({"_id": ObjectId(esporte_id)})["nome"] if esporte_id else None
-    coletivo = db_handle.esportes.find_one({"_id": ObjectId(esporte_id)})["coletivo"] if esporte_id else None
     atleta_id = data.get("atleta_id") if resultado else None
     atleta = db_handle.atletas.find_one({"_id": ObjectId(atleta_id)})["nome"] if atleta_id else None
 
@@ -123,13 +121,9 @@ def atualizar_contador_medalhas(data):
             update_fields = {
                 "$set": {
                     "pais_id": ouro_id,
-                    "esporte_id": esporte_id,
-                    "esporte": esporte
                 },
                 "$inc": {"ouro": 1, "total": 1}
             }
-            if not coletivo and atleta:
-                update_fields["$set"]["atleta"] = atleta
             db_handle.medalhas.update_one({"pais": ouro_nome}, update_fields, upsert=True)
 
         if "prata" in resultado:
@@ -138,13 +132,9 @@ def atualizar_contador_medalhas(data):
             update_fields = {
                 "$set": {
                     "pais_id": prata_id,
-                    "esporte_id": esporte_id,
-                    "esporte": esporte
                 },
                 "$inc": {"prata": 1, "total": 1}
             }
-            if not coletivo and atleta:
-                update_fields["$set"]["atleta"] = atleta
             db_handle.medalhas.update_one({"pais": prata_nome}, update_fields, upsert=True)
 
         if "bronze" in resultado:
@@ -153,13 +143,9 @@ def atualizar_contador_medalhas(data):
             update_fields = {
                 "$set": {
                     "pais_id": bronze_id,
-                    "esporte_id": esporte_id,
-                    "esporte": esporte
                 },
                 "$inc": {"bronze": 1, "total": 1}
             }
-            if not coletivo and atleta:
-                update_fields["$set"]["atleta"] = atleta
             db_handle.medalhas.update_one({"pais": bronze_nome}, update_fields, upsert=True)
 
 
@@ -265,7 +251,7 @@ def create_esporte(request):
     
     
 @csrf_exempt
-def create_match(request,_id):
+def create_match(request,_id, *args, **kwargs):
     # Agenda uma partida
     if request.method == "POST":
         if not check_refeer_permissions(request):
@@ -288,7 +274,7 @@ def create_match(request,_id):
             data["fase"] = data["fase"].lower()
             data["data"] = data["data"].lower()
             # Inclui os participantes
-            data["participantes"] = data["participantes"]
+            data["participantes"] = [db_handle.paises.find_one({"_id": ObjectId(id)})["nome"] for id in data["participantes"]]
             db_handle.partidas.insert_one(data)
 
 
@@ -303,61 +289,43 @@ def create_match(request,_id):
         except Exception as e:
             return JsonResponse({"error": f"400 - Bad Request - {str(e)}"}, status=400)
         
-    # Consultar partidas ou uma partida específica
-    if request.method == "GET":
-        if not check_refeer_permissions(request):
-            return JsonResponse({"error": "403 - Acesso negado"}, status=403)
-        partida_id = request.GET.get('_id')
-        if partida_id:
-            partida = db_handle.partidas.find_one({'_id': ObjectId(partida_id)})
-            if partida:
-                resultado = partida["resultado"] if "resultado" in partida else None
-                response_data = {
-                    "_id": str(partida["_id"]),
-                    "esporte": partida["esporte"],
-                    "data": partida["data"],
-                    "local": partida["local"],
-                    "fase": partida["fase"],
-                    "resultado": resultado,
-                    "detalhes": partida["detalhes"],
-                    "mensagem": "200 - Partida obtida com sucesso!"
-                }
-                return JsonResponse(response_data, status=200)
-            else:
-                return JsonResponse({"error": "Partida não encontrada"}, status=404)
-        else:
-            partidas = db_handle.partidas.find()
-            partidas_list = []
-            for partida in partidas:
-                resultado = partida["resultado"] if "resultado" in partida else None
-                response_data = {
-                    "_id": str(partida["_id"]),
-                    "esporte": partida["esporte"],
-                    "data": partida["data"],
-                    "local": partida["local"],
-                    "fase": partida["fase"],
-                    "resultado": resultado,
-                    "detalhes": partida["detalhes"]
-                }
-                partidas_list.append(response_data)
-            return JsonResponse(partidas_list, safe=False, status=200)
-        
     # Atualizar uma partida
     if request.method == "PATCH":
         if not check_refeer_permissions(request):
             return JsonResponse({"error": "403 - Acesso negado"}, status=403)
-        
+    
         data = json.loads(request.body)
-        partida_id = data.get("_id")
+        partida_id = request.GET.get("_id")
         if partida_id:
-            # Verifica se a data da partida é passada
-            match_date = datetime.strptime(data.get("data", ""), "%Y-%m-%dT%H:%M:%S-03:00")
-            if match_date and match_date > datetime.now():
-                return JsonResponse({"error": "400 - Bad Request - A partida ainda não ocorreu!"}, status=400)
-
+            try:
+                partida_id = ObjectId(partida_id)
+            except InvalidId:
+                return JsonResponse({"error": "400 - Bad Request - ID da partida informado inválido!"}, status=400)
             detalhes = data.get("detalhes")
             if not detalhes or not isinstance(detalhes, dict):
                 return JsonResponse({"error": "400 - Bad Request - Detalhes da partida são necessários e devem ser um objeto"}, status=400)
+
+            # Busca a partida antes de atualizá-la
+            partida = db_handle.partidas.find_one({"_id": ObjectId(partida_id)})
+
+            # Verifica se a partida existe
+            if not partida:
+                return JsonResponse({"error": "400 - Bad Request - Partida não encontrada"}, status=400)
+
+            # Obtém a lista de participantes da partida
+            participantes = partida.get("participantes")
+
+            # Verifica se os resultados contêm pelo menos dois dos participantes
+            resultado = data.get("resultado")
+            if resultado:
+                vencedores = resultado.get("vencedores")
+                if vencedores and len(vencedores) >= 2 and all(vencedor in participantes for vencedor in vencedores):
+                    # Remove o campo _id dos dados antes de atualizar a partida
+                    data.pop("_id", None)
+
+                    # Atualiza a partida com os novos dados e detalhes da partida
+                    db_handle.partidas.update_one({"_id": ObjectId(partida_id)}, {"$set": data})
+
 
             # Remove o campo _id dos dados antes de atualizar a partida
             data.pop("_id", None)
@@ -368,6 +336,7 @@ def create_match(request,_id):
             # Busca a partida atualizada para retornar na resposta
             updated_partida = db_handle.partidas.find_one({"_id": ObjectId(partida_id)})
 
+            
             # Convert ObjectId to string
             updated_partida["_id"] = str(updated_partida["_id"])
 
@@ -384,12 +353,24 @@ def create_match(request,_id):
             fase = updated_partida.get("fase")
             data["fase"] = fase
 
-            atualizar_contador_medalhas(data)
+            # Verifica se o resultado está presente para partidas na fase final
+            if fase == "final" and "resultado" not in data:
+                return JsonResponse({"error": "400 - Bad Request - Resultado é necessário para partidas na fase final"}, status=400)
+    
+            try:
+                atualizar_contador_medalhas(data)
+            except ValueError as e:
+                return JsonResponse({"error": str(e)}, status=400)
+
+            # Convert all ObjectId to string
+            for key, value in updated_partida.items():
+                if isinstance(value, ObjectId):
+                    updated_partida[key] = str(value)
 
             response_data = {
-                "partida_id": partida_id,
-                "esporte_id": esporte_id,
-                "esporte_nome": esporte_nome,
+                # "partida_id": partida_id,
+                # "esporte_id": esporte_id,
+                # "esporte_nome": esporte_nome,
                 "message": "200 - Partida atualizada com sucesso!",
                 "partida": updated_partida  # Retorna a partida atualizada na resposta
             }
@@ -419,4 +400,35 @@ def create_match(request,_id):
                 return JsonResponse({"error": "404 - Partida não encontrada"}, status=404)
         else:
             return JsonResponse({"error": "400 - Bad Request - Você forneceu o id?"}, status=400)
-    
+
+def consultar_partidas(request):
+    # Consultar partidas ou uma partida específica
+    if request.method == "GET":
+        if not check_refeer_permissions(request):
+            return JsonResponse({"error": "403 - Acesso negado"}, status=403)
+        partida_id = request.GET.get('_id')
+        if partida_id:
+            partida = db_handle.partidas.find_one({'_id': ObjectId(partida_id)})
+            if partida:
+                resultado = partida["resultado"] if "resultado" in partida else None
+                response_data = {
+                    "_id": str(partida["_id"]),
+                    "esporte": partida["esporte_nome"],
+                    "esporte_id": partida["esporte_id"],
+                    "data": partida["data"],
+                    "local": partida["local"],
+                    "fase": partida["fase"],
+                    "resultado": resultado,
+                    "detalhes": partida["detalhes"],
+                    "mensagem": "200 - Partida obtida com sucesso!"
+                }
+                return JsonResponse(response_data, status=200)
+            else:
+                return JsonResponse({"error": "Partida não encontrada"}, status=404)
+        else:
+            partidas = db_handle.partidas.find()
+            partidas_list = []
+            for partida in partidas:
+                    partida["_id"] = str(partida["_id"])  # Convert ObjectId to string
+                    partidas_list.append(partida)
+            return JsonResponse(partidas_list, safe=False, status=200)

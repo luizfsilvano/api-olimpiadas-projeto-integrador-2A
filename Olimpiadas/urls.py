@@ -22,6 +22,7 @@ urlpatterns = [
     # Metodos de uso para Esportes
     path('esportes', create_esporte, name='esportes'),
     path('esportes/<str:_id>/partidas', create_match, name='partidas'),
+    path('esportes/partidas', consultar_partidas, name='consultar'),
 
     # Métodos de uso para Atletas
     path('atletas', get_atletas, name='atletas'),
@@ -31,9 +32,9 @@ urlpatterns = [
 
     # Metodos de uso para Medalhas
     path('medalhas', medalhas_geral, name='medalhas'),
-    path('medalhas/esportes', medalhas_por_esportes, name='medalhas_por_esportes'),
-    path('medalhas/atletas', medalhas_por_atleta, name='medalhas_por_atleta'),
-    path('medalhas/pais', medalhas_paises, name='medalhas_por_paises'),
+    # path('medalhas/esportes', medalhas_por_esportes, name='medalhas_por_esportes'),
+    # path('medalhas/atletas', medalhas_por_atleta, name='medalhas_por_atleta'),
+    # path('medalhas/pais', medalhas_paises, name='medalhas_por_paises'),
 
     # Métodos de uso para autenticação
     path('login/token', login, name='login'),
@@ -41,7 +42,7 @@ urlpatterns = [
     path('login/token/admin' , manage, name='manage'),
 
     # Método secreto para criar um superuser
-    path('login/superuser', first_admin, name='create_superuser'),
+    # path('login/superuser', first_admin, name='create_superuser'),
 
     # Site principal para visualização
     path('', index, name='index'),

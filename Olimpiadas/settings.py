@@ -16,7 +16,7 @@ load_dotenv(dotenv_path)
 SECRET_KEY = str(os.getenv("SECRET_KEY"))
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 # Marque como verdadeiro para permitir a execução de testes
 TESTING = False
@@ -26,7 +26,6 @@ db_name = os.getenv("DB_NAME") if not TESTING else 'Testing'
 db_user = str(os.getenv("DB_USER"))
 db_password = str(os.getenv("DB_PASS"))
 db_host = os.getenv("DB_HOST") if not TESTING else 'testing.aa3ui0r.mongodb.net'
-
 
 uri = f"mongodb+srv://{db_user}:{db_password}@{db_host}/?retryWrites=true&w=majority&appName={db_name}"
 

@@ -49,131 +49,27 @@
 <section>
     <div class="content-tabela">
         <table>
-            <tr>
-                <th colspan="2">Rank</th>
-                <th>País</th>
-                <th>Ouro</th>
-                <th>Prata</th>
-                <th>Bronze</th>
-                <th>Total</th>
-            </tr>
-            <tr class="item">
-                <td>1</td>
-                <td class="icone">
-                    <img src="{% static 'IMG/brazil.png' %}" width="50" height="50">
-                </td>
-                <td>Brasil</td>
-                <td class="rigth">5</td>
-                <td class="rigth">5</td>
-                <td class="rigth">5</td>
-                <td class="rigth">15</td>
-            </tr>
-            <tr class="item">
-                <td>2</td>
-                <td class="icone">
-                    <img src="https://dcdn.mitiendanube.com/stores/002/414/050/products/bandeira-estados-unidos-150x90-poliester-copa-do-mundo-olimpiadas-capa-11-1f01c46674e0c2a28516709785193240-1024-1024.webp" width="40" height="40">
-                </td>
-                <td>USA</td>
-                <td class="rigth">5</td>
-                <td class="rigth">5</td>
-                <td class="rigth">5</td>
-                <td class="rigth">15</td>
-            </tr>
-            <tr class="item">
-                <td>3</td>
-                <td class="icone">
-                    <img src="https://static.mundoeducacao.uol.com.br/mundoeducacao/2023/01/bandeira-da-argentina.jpg" width="40" height="30">
-                </td>
-                <td>Argentina</td>
-                <td class="rigth">5</td>
-                <td class="rigth">5</td>
-                <td class="rigth">5</td>
-                <td class="rigth">15</td>
-            </tr>
-            <tr class="item">
-                <td>4</td>
-                <td class="icone">
-                    <img src="https://static.todamateria.com.br/upload/fr/an/frana_a.jpg" width="40" height="30">
-                </td>
-                <td>França</td>
-                <td class="rigth">5</td>
-                <td class="rigth">5</td>
-                <td class="rigth">5</td>
-                <td class="rigth">15</td>
-            </tr>
-            <tr class="item">
-                <td>5</td>
-                <td class="icone">
-                    <img src="https://static.todamateria.com.br/upload/ba/nd/bandeiraitalianatricolor-cke.jpg" width="40" height="30">
-                </td>
-                <td>Italia</td>
-                <td class="rigth">5</td>
-                <td class="rigth">5</td>
-                <td class="rigth">5</td>
-                <td class="rigth">15</td>
-            </tr><tr class="item">
-                <td>6</td>
-                <td class="icone">
-                    <img src="https://img.freepik.com/fotos-premium/bandeira-oficial-alema-da-alemanha-tambem-conhecida-como-bundesflagge-proporcoes-5-3-cores-preto-vermelho-485-c-dourado-7405-c_469558-893.jpg?w=1060" width="40" height="30">
-                </td>
-                <td>Alemanha</td>
-                <td class="rigth">5</td>
-                <td class="rigth">5</td>
-                <td class="rigth">5</td>
-                <td class="rigth">15</td>
-            </tr>
-            <tr class="item">
-                <td>7</td>
-                <td class="icone">
-                    <img src="https://s2.static.brasilescola.uol.com.br/be/2022/10/bandeira-da-australia.jpg" width="40" height="30">
-                </td>
-                <td>Australia</td>
-                <td class="rigth">5</td>
-                <td class="rigth">5</td>
-                <td class="rigth">5</td>
-                <td class="rigth">15</td>
-            </tr>
-            <tr class="item">
-                <td>8</td>
-                <td class="icone">
-                    <img src="https://s4.static.brasilescola.uol.com.br/be/2022/10/bandeira-do-mexico.jpg" width="40" height="30">
-                </td>
-                <td>Mexico</td>
-                <td class="rigth">5</td>
-                <td class="rigth">5</td>
-                <td class="rigth">5</td>
-                <td class="rigth">15</td>
-            </tr>
-            <tr class="item">
-                <td>9</td>
-                <td class="icone">
-                    <img src="https://st2.depositphotos.com/1322515/5626/i/950/depositphotos_56262703-stock-photo-canada-flag.jpg" width="40" height="30">
-                </td>
-                <td>Canada</td>
-                <td class="rigth">5</td>
-                <td class="rigth">5</td>
-                <td class="rigth">5</td>
-                <td class="rigth">15</td>
-            </tr>
-            <tr class="item">
-                <td>10</td>
-                <td class="icone">
-                    <img src="https://s4.static.brasilescola.uol.com.br/be/2022/11/bandeira-do-japao.jpg" width="40" height="30">
-                </td>
-                <td>Japão</td>
-                <td class="rigth">5</td>
-                <td class="rigth">5</td>
-                <td class="rigth">5</td>
-                <td class="rigth">15</td>
-            </tr>
-            
-            
-          
-                
-            
+            <thead>
+                <tr>
+                    <th>País</th>
+                    <th>Ouro</th>
+                    <th>Prata</th>
+                    <th>Bronze</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pais in medalhas %}
+                <tr>
+                    <td>{{ pais.pais }}</td>
+                    <td>{{ pais.ouro }}</td>
+                    <td>{{ pais.prata }}</td>
+                    <td>{{ pais.bronze }}</td>
+                    <td>{{ pais.total }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
         </table>
-       
-        
     </div>
 </section>
     
