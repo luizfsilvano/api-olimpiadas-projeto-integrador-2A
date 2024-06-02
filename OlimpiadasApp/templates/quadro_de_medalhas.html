@@ -60,12 +60,12 @@
             </thead>
             <tbody>
                 {% for pais in medalhas %}
-                <tr>
-                    <td>{{ pais.pais }}</td>
-                    <td>{{ pais.ouro }}</td>
-                    <td>{{ pais.prata }}</td>
-                    <td>{{ pais.bronze }}</td>
-                    <td>{{ pais.total }}</td>
+                <tr class = "item">
+                    <td class="pais">{{ pais.pais }}</td>
+                    <td class="ouro">{{ pais.ouro }}</td>
+                    <td class="prata">{{ pais.prata }}</td>
+                    <td class="bronze">{{ pais.bronze }}</td>
+                    <td class="total">{{ pais.total }}</td>
                 </tr>
                 {% endfor %}
             </tbody>

@@ -20,9 +20,11 @@ section{
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    width: 50%;
     background-color: rgb(245,242 ,242);
-    padding: 2px 0;
+    padding-right: 0px;
+    padding-left: 110px;
+    padding-top: 20px;
+    padding-bottom: 20px;
     border-radius: 5px ;
     -webkit-box-shadow: 3px 3px 3px rgba(50,50,50,0.77);
     -moz-box-shadow:3px 3px 3px rgba(50,50,50,0.77);
@@ -33,7 +35,7 @@ section{
     width: 100%;
     max-width: 800px;
     border-collapse:collapse;
-    padding: 0;
+    padding: 20px;
 }
 .content-tabela table tr th{
     height: 60px;
@@ -45,7 +47,7 @@ section{
     padding: 0 10px;
 }
 .content-tabela table tr th{
-    padding: 0;
+    padding: 2px;
     width: 420px;
     
     border-radius: 10px;
@@ -70,4 +72,80 @@ section{
 }
 .right{
     text-align:right;
+}
+
+.content-tabela table tbody tr td{
+    padding: 10px 0;
+    font-size: 22px;
+}
+
+.bronze{
+    color: #cd7f32;
+    text-align: center;
+    text-shadow: .25px -.25px 0 #b9732d,
+    .5px -.5px 0 #a46628,
+    .75px -.75px 0 #905923,
+    1px -1px 0 #7b4d1e,
+    1.25px -1.25px 0 #674019,
+    1.5px -1.5px 0 #523314,
+    1.75px -1.75px 0 #3e260f,
+    2px -2px 0 #291a0a,
+    2.25px -2.25px 0 #150d05;
+}
+
+.prata{
+    color: #c0c0c0;
+    text-align: center;
+    text-shadow: .25px -.25px 0 #b3b3b3, 
+    .5px -.5px 0 #a6a6a6,
+    .75px -.75px 0 #999999,
+    1px -1px 0 #8c8c8c,
+    1.25px -1.25px 0 #808080,
+    1.5px -1.5px 0 #737373,
+    1.75px -1.75px 0 #666666,
+    2px -2px 0 #595959,
+    2.25px -2.25px 0 #4d4d4d,
+    2.5px -2.5px 0 #404040;
+}
+
+.ouro{
+    color: #dea821;
+    text-align: center;
+    text-shadow: .25px -.25px 0 #cfa41e,
+    .5px -.5px 0 #c08b1b,
+    .75px -.75px 0 #b17318,
+    1px -1px 0 #a25a15,
+    1.25px -1.25px 0 #934212,
+    1.5px -1.5px 0 #843a0f,
+    1.75px -1.75px 0 #75320c,
+    2px -2px 0 #662909,
+    2.25px -2.25px 0 #572106,
+    2.5px -2.5px 0 #481903;
+}
+
+.total{
+    color: #0000cc;
+    text-align: center;
+    text-shadow: .25px -.25px 0 #000083,
+    .5px -.5px 0 rgb(0, 0, 129),
+    .75px -.75px 0 rgb(0, 0, 110),
+    1px -1px 0 rgb(0, 0, 100),
+    1.25px -1.25px 0 rgb(0, 0, 90),
+    1.5px -1.5px 0 rgb(0, 0, 80),
+    1.75px -1.75px 0 rgb(0, 0, 70),
+    2px -2px 0 rgb(0, 0, 60),
+    2.25px -2.25px 0 rgb(0, 0, 50),
+    2.5px -2.5px 0 rgb(0, 0, 40);
+}
+
+.pais {
+    text-align: center;
+}
+
+.content-tabela table tr.item {
+    border-bottom: 1px solid #000000;
+}
+
+.content-tabela table tr.item:last-child {
+    border-bottom: none;
 }
