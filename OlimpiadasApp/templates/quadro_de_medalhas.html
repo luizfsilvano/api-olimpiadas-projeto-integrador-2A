@@ -51,16 +51,16 @@
         <table>
             <thead>
                 <tr>
-                    <th>País</th>
-                    <th>Ouro</th>
-                    <th>Prata</th>
-                    <th>Bronze</th>
-                    <th>Total</th>
+                    <th class="p">País</th>
+                    <th class="o">Ouro</th>
+                    <th class="pr">Prata</th>
+                    <th class="b">Bronze</th>
+                    <th class="t">Total</th>
                 </tr>
             </thead>
             <tbody>
                 {% for pais in medalhas %}
-                <tr class = "item">
+                <tr class="item">
                     <td class="pais">{{ pais.pais }}</td>
                     <td class="ouro">{{ pais.ouro }}</td>
                     <td class="prata">{{ pais.prata }}</td>
