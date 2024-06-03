@@ -83,9 +83,10 @@ def quadro_de_medalhas(request):
     for pais in dados:
         try:
             pais['total'] = pais['ouro'] + pais['prata'] + pais['bronze']
+            pais['pais'] = pais['pais'].title()
         except KeyError:
             return HttpResponse("Erro: Formato inesperado dos dados recebidos da API.", status=500)
-
+    
     dados_ordenados = sorted(dados, key=lambda x: (-x['total'], -x['ouro'], -x['prata'], -x['bronze']))
 
     context = {
@@ -153,4 +154,4 @@ def register(request):
     else:
         form = CustomUserCreationForm()
     
-    return render(request, 'registro.html', {'form': form, 'errors': errors})
+    return render(request, 'registro.html', {'form': form, 'errors':errors})
