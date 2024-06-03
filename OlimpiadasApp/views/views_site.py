@@ -50,7 +50,6 @@ def calendario(request):
     response = requests.get(url, headers=headers)
 
     eventos = response.json()
-    print(eventos)
     return render(request, 'calendario.html', {'eventos': eventos})
 
 def quadro_de_medalhas(request):
