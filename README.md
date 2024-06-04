@@ -5,7 +5,9 @@ Projeto de criação de uma API que tenha como objetivo, fazer com que "juizes" 
 
 Após armazenar esses valores, o objetivo é conseguir filtrar eles e criar uma interface para que os valores sejam vistos de forma simples e direta, com um bom poder de manipulação.
 
+# FINALIZADO
 
+O projeto foi finalizado com sucesso no prazo esperado, e já entregamos ao professor.
 
 ## Funcionalidades
 
@@ -20,13 +22,13 @@ Após armazenar esses valores, o objetivo é conseguir filtrar eles e criar uma 
 
 - ~~Implementar Autenticação~~
 
-- Adicionar Testes
+- ~~Adicionar Testes~~
 
-- Refatorar o código
+- ~~Refatorar o código~~
 
 - Documentação - https://app.swaggerhub.com/apis-docs/PI_IESB_2024/API_Olimpiadas/1.1.0#/
 
-- Criar um site para mostrar as informações
+- Criar um site para mostrar as informações https://olimpiadasiesb-7780607c931d.herokuapp.com/
 
 ## Melhorias
 
